@@ -1,0 +1,12 @@
+{
+  "cardPf": "pf_upto_10k",
+  "cardPj": "pj_none",
+  "uber": "uber_zero",
+  "ifood": "ifood_zero",
+  "retailAnnual": "retail_upto_2k",
+  "travelAnnual": "travel_upto_2k",
+  "travelStyle": "style_city",
+  "knowledgeLevel": "knowledge_none",
+  "freeTripsPerYear": "free_zero",
+  "managerInterest": "manager_maybe"
+}

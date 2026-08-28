@@ -1,0 +1,54 @@
+
+ RUN  v4.1.11 C:/Users/Bruno Costa/Documents/Personal/Miles-Calculator
+
+ ❯ src/domain/catalog/destinations.test.ts (11 tests | 1 failed) 47ms
+     × preenche todos os campos exibidos no card 15ms
+ ❯ src/features/miles-calculator/lib/destinationPhotos.test.ts (3 tests | 1 failed) 13ms
+     × aponta para arquivo dentro de public/destinations 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/domain/catalog/destinations.test.ts > catalogo de destinos > preenche todos os campos exibidos no card
+AssertionError: rio-de-janeiro: expected '/destinations/rio-de-janeiro.png' to match /^\/destinations\/.+\.web…/destinations\
+
+- Expected:
+/^\/destinations\/.+\.webp$/
+
++ Received:
+"/destinations/rio-de-janeiro.png"
+
+ ❯ src/domain/catalog/destinations.test.ts:25:49
+     23|       expect(destination.country.trim(), destination.id).not.toBe('')
+     24|       expect(destination.blurb.trim(), destination.id).not.toBe('')
+     25|       expect(destination.image, destination.id).toMatch(/^\/destinatio…
+       |                                                 ^
+     26|     }
+     27|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/features/miles-calculator/lib/destinationPhotos.test.ts > destinationPhotos > aponta para arquivo dentro de public/destinations
+AssertionError: expected '/destinations/rio-de-janeiro.png' to match /^\/destinations\/[a-z-]+…/destinations\
+
+- Expected:
+/^\/destinations\/[a-z-]+\.webp$/
+
++ Received:
+"/destinations/rio-de-janeiro.png"
+
+ ❯ src/features/miles-calculator/lib/destinationPhotos.test.ts:27:33
+     25|
+     26|     for (const destination of withPhoto) {
+     27|       expect(destination.image).toMatch(/^\/destinations\/[a-z-]+\.web…
+       |                                 ^
+     28|     }
+     29|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 14 passed (16)
+      Tests  2 failed | 348 passed (350)
+   Start at  11:52:12
+   Duration  56.84s (transform 7.74s, setup 18.14s, import 21.94s, tests 47.33s, environment 78.02s)
+

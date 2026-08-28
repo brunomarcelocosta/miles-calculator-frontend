@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 C:/Users/Bruno Costa/Documents/Personal/Miles-Calculator
+
+
+ Test Files  16 passed (16)
+      Tests  350 passed (350)
+   Start at  09:23:13
+   Duration  49.47s (transform 14.46s, setup 8.95s, import 26.76s, tests 41.82s, environment 79.54s)
+

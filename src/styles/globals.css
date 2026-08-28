@@ -1,0 +1,149 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* Fontes via @fontsource, nao pelo CDN do Google: tira um terceiro do caminho
+   critico e elimina o preconnect, o que importa em 3G — o cenario real de
+   trafego vindo do Instagram. */
+@import "@fontsource-variable/cormorant-garamond";
+@import "@fontsource-variable/dm-sans";
+
+/* A calculadora nao tem tema escuro (decisao de marca), mas a variante fica
+   declarada porque os componentes do shadcn trazem classes `dark:`. Sem nenhum
+   elemento com a classe `.dark`, elas simplesmente nunca se aplicam. */
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-3xl: calc(var(--radius) * 2);
+  --radius-pill: 999px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: 'DM Sans Variable', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Cormorant Garamond Variable', Georgia, 'Times New Roman', serif;
+  --font-heading: var(--font-serif);
+
+  /* Paleta Travion, espelhando travion/style.css sem alterar nenhum valor. */
+  --color-travion-bg: #fdfcf9;
+  --color-travion-surface: #f5f3ef;
+  --color-travion-ink: #14120f;
+  --color-travion-muted: #5c5852;
+  --color-travion-line: #e2ddd4;
+  --color-travion-accent: #5c4d3d;
+  --color-travion-accent-soft: rgb(92 77 61 / 14%);
+  --color-travion-white: #ffffff;
+
+  /* Alturas de alvo de toque. 56px e o minimo das opcoes do quiz: em mobile
+     pago, alvo pequeno custa conclusao. */
+  --spacing-touch: 3.5rem;
+
+  --shadow-travion: 0 4px 28px rgb(20 18 15 / 6%);
+  --shadow-travion-hover: 0 8px 36px rgb(20 18 15 / 9%);
+
+  --ease-travion: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+:root {
+  /* 18px, o mesmo raio base do site da Travion. */
+  --radius: 1.125rem;
+
+  --background: #fdfcf9;
+  --foreground: #14120f;
+  --card: #ffffff;
+  --card-foreground: #14120f;
+  --popover: #ffffff;
+  --popover-foreground: #14120f;
+
+  /* O botao principal do site e preto tinta, nao colorido. */
+  --primary: #14120f;
+  --primary-foreground: #ffffff;
+
+  --secondary: #f5f3ef;
+  --secondary-foreground: #14120f;
+  --muted: #f5f3ef;
+  --muted-foreground: #5c5852;
+
+  --accent: #5c4d3d;
+  --accent-foreground: #ffffff;
+
+  --destructive: #a4342a;
+  --destructive-foreground: #ffffff;
+
+  --border: #e2ddd4;
+  --input: #e2ddd4;
+  --ring: #5c4d3d;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased bg-background text-foreground;
+    line-height: 1.55;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  /* O foco visivel usa o marrom da marca. `#5c4d3d` sobre `#fdfcf9` tem
+     contraste alto, então a paleta nao cobra concessao de acessibilidade. */
+  :focus-visible {
+    outline: 2px solid var(--color-travion-accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility eyebrow {
+  @apply font-sans text-xs font-medium uppercase text-travion-accent;
+  letter-spacing: 0.22em;
+}

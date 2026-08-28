@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="Logo T espelhado">
+  <title>Logo T serifado espelhado</title>
+  <rect width="100" height="100" fill="#ffffff"/>
+  <!-- Moldura -->
+  <rect x="3" y="3" width="94" height="94" fill="none" stroke="#000000" stroke-width="2.8" stroke-linejoin="miter"/>
+  <!-- Metade esquerda: T serifado (barra, serifa superior esquerda, haste, serifa inferior) -->
+  <g id="half-t" fill="#000000">
+    <!-- Serifa vertical no extremo esquerdo da barra -->
+    <rect x="15" y="18" width="5" height="11" rx="0.5"/>
+    <!-- Barra horizontal superior -->
+    <rect x="18" y="18" width="30" height="7"/>
+    <!-- Haste vertical (encosta na barra; v�o at� o espelho: 48�52) -->
+    <rect x="40" y="25" width="8" height="44"/>
+    <!-- Serifa inferior da haste (flare para a esquerda) -->
+    <path d="M 40 69 L 48 69 L 46.5 76 L 38 73.5 L 36.5 71 Z"/>
+  </g>
+  <!-- Metade direita: espelho horizontal em torno do eixo central -->
+  <use href="#half-t" transform="translate(100 0) scale(-1 1)"/>
+</svg>
