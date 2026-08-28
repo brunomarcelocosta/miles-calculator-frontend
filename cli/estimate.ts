@@ -22,7 +22,6 @@ import { resolveSpendProfile } from '../src/domain/services/SpendProfileResolver
 const DEFAULT_ANSWERS: QuizAnswers = {
   cardPf: 'pf_above_26k',
   cardPj: 'pj_above_20k',
-  uber: 'uber_above_300',
   ifood: 'ifood_above_500',
   retailAnnual: 'retail_above_10k',
   travelAnnual: 'travel_above_10k',
