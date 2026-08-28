@@ -27,7 +27,7 @@ export function DestinationCard({ recommendation, index }: DestinationCardProps)
   const showPhoto = hasDestinationPhoto(destination.id) && !photoFailed
 
   const status = withinMinimum
-    ? { label: 'Já dá', tone: 'accent' as const }
+    ? { label: 'Já alcança', tone: 'accent' as const }
     : withinMaximum
       ? { label: 'No cenário máximo', tone: 'muted' as const }
       : { label: 'Próxima meta', tone: 'outline' as const }
@@ -79,14 +79,19 @@ export function DestinationCard({ recommendation, index }: DestinationCardProps)
 
         <p className="mt-3 text-sm text-travion-muted">{destination.blurb}</p>
 
-        <p className="mt-4 flex items-baseline gap-2 border-t border-border pt-4 font-sans">
-          <span className="text-base font-medium tabular-nums">
-            {formatPoints(requiredMiles)}
-          </span>
-          <span className="text-sm text-travion-muted">
-            milhas · {CABIN_LABEL[cabin]}
-          </span>
-        </p>
+        <div className="mt-4 border-t border-border pt-4 font-sans">
+          <p className="text-xs text-travion-muted">
+            Preço médio da passagem saindo de SP → {destination.name}
+          </p>
+          <p className="mt-1 flex items-baseline gap-2">
+            <span className="text-base font-medium tabular-nums">
+              {formatPoints(requiredMiles)}
+            </span>
+            <span className="text-sm text-travion-muted">
+              milhas · {CABIN_LABEL[cabin]}
+            </span>
+          </p>
+        </div>
       </div>
     </li>
   )

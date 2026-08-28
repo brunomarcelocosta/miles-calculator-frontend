@@ -11,7 +11,7 @@ import { RECOMMENDATION_COUNT } from '@/domain/services/DestinationRecommender'
 export function ResultSkeleton() {
   return (
     <div role="status" aria-live="polite" className="animate-pulse">
-      <span className="sr-only">Calculando a sua estimativa de pontos.</span>
+      <span className="sr-only">Calculando a sua estimativa de milhas.</span>
 
       <div className="text-center">
         <div className="mx-auto mb-6 h-3 w-40 rounded-full bg-travion-line" />

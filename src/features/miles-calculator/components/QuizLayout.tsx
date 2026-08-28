@@ -38,7 +38,7 @@ export function QuizLayout({
       <header className="border-b border-border/60">
         <div
           className={cn(
-            'mx-auto flex min-h-20 items-center justify-between gap-4',
+            'mx-auto flex min-h-16 items-center justify-between gap-4',
             wide ? 'w-[min(100%-2rem,75rem)]' : 'w-[min(100%-2rem,40rem)]',
           )}
         >
@@ -58,7 +58,7 @@ export function QuizLayout({
       </header>
 
       {questionNumber !== null ? (
-        <div className="border-b border-border/60 py-4">
+        <div className="border-b border-border/60 py-3">
           <div className="mx-auto w-[min(100%-2rem,40rem)]">
             <QuizProgress current={questionNumber} total={questionCount} />
           </div>
@@ -67,7 +67,7 @@ export function QuizLayout({
 
       <main
         className={cn(
-          'mx-auto flex w-[min(100%-2rem,40rem)] flex-1 flex-col justify-center py-10',
+          'mx-auto flex w-[min(100%-2rem,40rem)] flex-1 flex-col justify-center py-6',
           wide && 'w-[min(100%-2rem,75rem)]',
         )}
       >

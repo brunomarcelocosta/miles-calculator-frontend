@@ -12,12 +12,11 @@ import { defaultConfigProvider } from '@/domain/config/CalculatorConfigProvider'
 import { DestinationRecommender } from '@/domain/services/DestinationRecommender'
 import { MilesEstimator } from '@/domain/services/MilesEstimator'
 import { resolveSpendProfile } from '@/domain/services/SpendProfileResolver'
+import { formatPointsRounded } from '@/shared/lib/formatNumber'
 
-/** Mesmo perfil usado nos testes do motor: faixa de 358.000 a 816.111. */
 const highSpender: QuizAnswers = {
   cardPf: 'pf_above_26k',
   cardPj: 'pj_above_20k',
-  uber: 'uber_above_300',
   ifood: 'ifood_above_500',
   retailAnnual: 'retail_above_10k',
   travelAnnual: 'travel_above_10k',
@@ -30,7 +29,6 @@ const highSpender: QuizAnswers = {
 const entryLevel: QuizAnswers = {
   cardPf: 'pf_upto_10k',
   cardPj: 'pj_none',
-  uber: 'uber_zero',
   ifood: 'ifood_zero',
   retailAnnual: 'retail_upto_2k',
   travelAnnual: 'travel_upto_2k',
@@ -74,8 +72,8 @@ describe('ResultStep', () => {
 
       // Regiao viva, para o leitor de tela saber que algo esta em andamento.
       expect(screen.getByRole('status')).toBeInTheDocument()
-      expect(screen.getByText('Calculando a sua estimativa de pontos.')).toBeInTheDocument()
-      expect(screen.queryByText('pontos por ano')).not.toBeInTheDocument()
+      expect(screen.getByText('Calculando a sua estimativa de milhas.')).toBeInTheDocument()
+      expect(screen.queryByText('milhas por ano')).not.toBeInTheDocument()
     })
 
     it('revela o resultado depois do atraso', async () => {
@@ -89,37 +87,43 @@ describe('ResultStep', () => {
       )
 
       await waitFor(() => expect(screen.queryByRole('status')).not.toBeInTheDocument())
-      expect(screen.getByText('pontos por ano')).toBeInTheDocument()
+      expect(screen.getByText('milhas por ano')).toBeInTheDocument()
     })
   })
 
-  describe('faixa de pontos', () => {
+  describe('faixa de milhas', () => {
     it('anuncia a faixa em texto acessivel, sem depender da animacao', () => {
+      const { estimate } = expected(highSpender)
       renderResult(highSpender)
 
       expect(
-        screen.getByText('Entre 358.000 e 816.111 pontos por ano.'),
+        screen.getByText(
+          `Entre ${formatPointsRounded(estimate.min.annualPoints)} e ${formatPointsRounded(estimate.max.annualPoints)} milhas por ano.`,
+        ),
       ).toBeInTheDocument()
     })
 
-    it('exibe o numero grande com os dois extremos', () => {
+    it('exibe o numero grande arredondado, com os dois extremos', () => {
       const { container } = renderResult(highSpender)
+      const { estimate } = expected(highSpender)
 
       // O bloco visual e `aria-hidden`, então nao tem papel nem nome acessivel:
       // a ancora e o `data-slot`, na mesma convencao dos componentes de UI.
       const range = container.querySelector('[data-slot="estimate-range"]')
 
-      expect(range?.textContent).toBe('358.000a816.111')
+      expect(range?.textContent).toBe(
+        `${formatPointsRounded(estimate.min.annualPoints)}a${formatPointsRounded(estimate.max.annualPoints)}`,
+      )
     })
 
-    it('termina a contagem no valor final, sem parar no meio', () => {
+    it('termina a contagem no valor final arredondado, sem parar no meio', () => {
       const { container } = renderResult(entryLevel)
       const { estimate } = expected(entryLevel)
 
       const range = container.querySelector('[data-slot="estimate-range"]')
 
       expect(range?.textContent).toBe(
-        `${estimate.min.annualPoints.toLocaleString('pt-BR')}a${estimate.max.annualPoints.toLocaleString('pt-BR')}`,
+        `${formatPointsRounded(estimate.min.annualPoints)}a${formatPointsRounded(estimate.max.annualPoints)}`,
       )
     })
 
@@ -130,7 +134,7 @@ describe('ResultStep', () => {
 
       expect(
         screen.getByText(
-          `Entre ${estimate.min.annualPoints.toLocaleString('pt-BR')} e ${estimate.max.annualPoints.toLocaleString('pt-BR')} pontos por ano.`,
+          `Entre ${formatPointsRounded(estimate.min.annualPoints)} e ${formatPointsRounded(estimate.max.annualPoints)} milhas por ano.`,
         ),
       ).toBeInTheDocument()
     })
@@ -214,13 +218,13 @@ describe('ResultStep', () => {
       expect(screen.getAllByText(new RegExp(`milhas · ${cabin}`)).length).toBeGreaterThan(0)
     })
 
-    it('marca como "Já dá" o que cabe no cenario conservador', () => {
+    it('marca como "Já alcança" o que cabe no cenario conservador', () => {
       const { recommendations } = expected(highSpender)
       renderResult(highSpender)
 
       const guaranteed = recommendations.filter((item) => item.withinMinimum).length
 
-      expect(screen.getAllByText('Já dá')).toHaveLength(guaranteed)
+      expect(screen.getAllByText('Já alcança')).toHaveLength(guaranteed)
     })
 
     it('sinaliza destino ainda fora de alcance como proxima meta', () => {
@@ -293,8 +297,8 @@ describe('ResultStep', () => {
       const message = decodeURIComponent(cta.getAttribute('href')!.split('?text=')[1]!)
 
       expect(message).toBe(buildWhatsAppMessage(estimate, recommendations))
-      expect(message).toContain('358.000')
-      expect(message).toContain('816.111')
+      expect(message).toContain(formatPointsRounded(estimate.min.annualPoints))
+      expect(message).toContain(formatPointsRounded(estimate.max.annualPoints))
     })
 
     it('nao redireciona sozinho: nao ha contador na tela', () => {
@@ -331,7 +335,7 @@ describe('ResultStep', () => {
 
       renderResult(incomplete)
 
-      expect(screen.queryByText('pontos por ano')).not.toBeInTheDocument()
+      expect(screen.queryByText('milhas por ano')).not.toBeInTheDocument()
       expect(screen.queryAllByRole('listitem')).toHaveLength(0)
     })
   })

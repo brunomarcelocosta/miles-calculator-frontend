@@ -1,9 +1,854 @@
 
  RUN  v4.1.11 C:/Users/Bruno Costa/Documents/Personal/Miles-Calculator
 
+ ❯ src/domain/services/MilesEstimator.test.ts (15 tests | 1 failed) 123ms
+       × calcula o perfil alto com os numeros esperados 25ms
+ ❯ src/features/miles-calculator/pages/CalculatorPage.test.tsx (31 tests | 5 failed) 32999ms
+     × mostra o progresso só nas perguntas 3563ms
+     × avanca sozinho ao selecionar uma opcao 1498ms
+     × retoma no passo onde parou depois de recarregar 1249ms
+       × a seta move o foco sem selecionar, para nao avancar sem querer 1113ms
+     × percorre as treze telas do funil de ponta a ponta 860ms
 
- Test Files  16 passed (16)
-      Tests  350 passed (350)
-   Start at  18:43:54
-   Duration  43.45s (transform 10.60s, setup 7.11s, import 19.20s, tests 36.77s, environment 61.64s)
+ Test Files  2 failed | 14 passed (16)
+      Tests  6 failed | 337 passed (343)
+   Start at  13:59:17
+   Duration  59.81s (transform 18.68s, setup 12.75s, import 37.03s, tests 47.49s, environment 201.09s)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/domain/services/MilesEstimator.test.ts > MilesEstimator > integrado com o resolvedor de respostas > calcula o perfil alto com os numeros esperados
+AssertionError: expected [ 208333, 30000, 100000 ] to deeply equal [ 210000, 48000, 100000 ]
+
+- Expected
++ Received
+
+  [
+-   210000,
+-   48000,
++   208333,
++   30000,
+    100000,
+  ]
+
+ ❯ src/domain/services/MilesEstimator.test.ts:182:75
+    180|       //   parceiros ..  48.000/ano
+    181|       //   bonificadas . 100.000/ano
+    182|       expect(estimate.min.contributions.map((item) => item.annualPoint…
+       |                                                                           ^
+    183|         210_000, 48_000, 100_000,
+    184|       ])
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  src/features/miles-calculator/pages/CalculatorPage.test.tsx > CalculatorPage > mostra o progresso só nas perguntas
+Error: [2mexpect([22m[31melement[39m[2m).toHaveAccessibleName()[22m
+
+Expected element to have accessible name:
+[32m  Pergunta 1 de 10[39m
+Received:
+[31m  Pergunta 1 de 9[39m
+ ❯ src/features/miles-calculator/pages/CalculatorPage.test.tsx:100:45
+     98|     await goToFirstQuestion(user)
+     99|
+    100|     expect(screen.getByRole('progressbar')).toHaveAccessibleName('Perg…
+       |                                             ^
+    101|     expect(screen.getByText('Pergunta 1 de 10')).toBeInTheDocument()
+    102|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/features/miles-calculator/pages/CalculatorPage.test.tsx > CalculatorPage > avanca sozinho ao selecionar uma opcao
+TestingLibraryElementError: Unable to find an element with the text: Pergunta 2 de 10. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex min-h-screen flex-col bg-background"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"border-b border-border/60"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto flex min-h-16 items-center justify-between gap-4 w-[min(100%-2rem,40rem)]"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"inline-flex items-center gap-3.5"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m"Travion"[39m
+              [33mclass[39m=[32m"size-11 shrink-0 object-contain"[39m
+              [33mheight[39m=[32m"44"[39m
+              [33msrc[39m=[32m"/logo-travion.svg"[39m
+              [33mwidth[39m=[32m"44"[39m
+            [36m/>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"font-sans text-[1.05rem] leading-none font-medium tracking-[0.28em] uppercase"[39m
+            [36m>[39m
+              [0mTravion[0m
+            [36m</span>[39m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center gap-2 rounded-full px-3 font-sans text-sm text-travion-muted transition-colors hover:text-foreground"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-arrow-left size-4"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m12 19-7-7 7-7"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 12H5"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mAnterior[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"border-b border-border/60 py-3"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto w-[min(100%-2rem,40rem)]"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex items-center gap-4"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"shrink-0 font-sans text-xs font-medium tracking-[0.18em] text-travion-muted uppercase"[39m
+            [36m>[39m
+              [0mPergunta [0m
+              [0m2[0m
+              [0m de [0m
+              [0m9[0m
+            [36m</span>[39m
+            [36m<div[39m
+              [33maria-label[39m=[32m"Pergunta 2 de 9"[39m
+              [33maria-valuemax[39m=[32m"9"[39m
+              [33maria-valuemin[39m=[32m"1"[39m
+              [33maria-valuenow[39m=[32m"2"[39m
+              [33mclass[39m=[32m"h-px flex-1 bg-travion-line"[39m
+              [33mrole[39m=[32m"progressbar"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"h-px bg-travion-accent transition-[width] duration-500 ease-travion"[39m
+                [33mstyle[39m=[32m"width: 22%;"[39m
+              [36m/>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"mx-auto flex w-[min(100%-2rem,40rem)] flex-1 flex-col justify-center py-6"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"animate-in fade-in slide-in-from-bottom-2 duration-300"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"mb-3 text-[clamp(1.7rem,5.5vw,2.6rem)] leading-[1.1] tracking-[-0.02em]"[39m
+              [33mid[39m=[32m"question-cardPj-title"[39m
+            [36m>[39m
+              [0mE no cartão da sua empresa?[0m
+            [36m</h2>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"mb-8 text-travion-muted"[39m
+              [33mid[39m=[32m"question-cardPj-helper"[39m
+            [36m>[39m
+              [0mGasto mensal no cartão PJ, se você usa um.[0m
+            [36m</p>[39m
+            [36m<div[39m
+              [33maria-describedby[39m=[32m"question-cardPj-helper"[39m
+              [33maria-labelledby[39m=[32m"question-cardPj-title"[39m
+              [33mclass[39m=[32m"grid gap-3"[39m
+              [33mrole[39m=[32m"radiogroup"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"0"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mNão uso cartão PJ[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mAté R$ 10 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mR$ 11 mil a R$ 15 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mAcima de R$ 20 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</main>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/miles-calculator/pages/CalculatorPage.test.tsx:114:19
+    112|       expect(screen.getByRole('heading', { name: /cartão da sua empres…
+    113|     )
+    114|     expect(screen.getByText('Pergunta 2 de 10')).toBeInTheDocument()
+       |                   ^
+    115|   })
+    116|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/features/miles-calculator/pages/CalculatorPage.test.tsx > CalculatorPage > retoma no passo onde parou depois de recarregar
+TestingLibraryElementError: Unable to find an element with the text: Pergunta 2 de 10. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex min-h-screen flex-col bg-background"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"border-b border-border/60"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto flex min-h-16 items-center justify-between gap-4 w-[min(100%-2rem,40rem)]"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"inline-flex items-center gap-3.5"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m"Travion"[39m
+              [33mclass[39m=[32m"size-11 shrink-0 object-contain"[39m
+              [33mheight[39m=[32m"44"[39m
+              [33msrc[39m=[32m"/logo-travion.svg"[39m
+              [33mwidth[39m=[32m"44"[39m
+            [36m/>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"font-sans text-[1.05rem] leading-none font-medium tracking-[0.28em] uppercase"[39m
+            [36m>[39m
+              [0mTravion[0m
+            [36m</span>[39m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center gap-2 rounded-full px-3 font-sans text-sm text-travion-muted transition-colors hover:text-foreground"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-arrow-left size-4"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m12 19-7-7 7-7"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 12H5"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mAnterior[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"border-b border-border/60 py-3"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto w-[min(100%-2rem,40rem)]"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex items-center gap-4"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"shrink-0 font-sans text-xs font-medium tracking-[0.18em] text-travion-muted uppercase"[39m
+            [36m>[39m
+              [0mPergunta [0m
+              [0m2[0m
+              [0m de [0m
+              [0m9[0m
+            [36m</span>[39m
+            [36m<div[39m
+              [33maria-label[39m=[32m"Pergunta 2 de 9"[39m
+              [33maria-valuemax[39m=[32m"9"[39m
+              [33maria-valuemin[39m=[32m"1"[39m
+              [33maria-valuenow[39m=[32m"2"[39m
+              [33mclass[39m=[32m"h-px flex-1 bg-travion-line"[39m
+              [33mrole[39m=[32m"progressbar"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"h-px bg-travion-accent transition-[width] duration-500 ease-travion"[39m
+                [33mstyle[39m=[32m"width: 22%;"[39m
+              [36m/>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"mx-auto flex w-[min(100%-2rem,40rem)] flex-1 flex-col justify-center py-6"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"animate-in fade-in slide-in-from-bottom-2 duration-300"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"mb-3 text-[clamp(1.7rem,5.5vw,2.6rem)] leading-[1.1] tracking-[-0.02em]"[39m
+              [33mid[39m=[32m"question-cardPj-title"[39m
+            [36m>[39m
+              [0mE no cartão da sua empresa?[0m
+            [36m</h2>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"mb-8 text-travion-muted"[39m
+              [33mid[39m=[32m"question-cardPj-helper"[39m
+            [36m>[39m
+              [0mGasto mensal no cartão PJ, se você usa um.[0m
+            [36m</p>[39m
+            [36m<div[39m
+              [33maria-describedby[39m=[32m"question-cardPj-helper"[39m
+              [33maria-labelledby[39m=[32m"question-cardPj-title"[39m
+              [33mclass[39m=[32m"grid gap-3"[39m
+              [33mrole[39m=[32m"radiogroup"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"0"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mNão uso cartão PJ[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mAté R$ 10 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mR$ 11 mil a R$ 15 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mAcima de R$ 20 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</main>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/miles-calculator/pages/CalculatorPage.test.tsx:331:19
+    329|     // Cai direto na segunda pergunta, sem passar por boas-vindas nem …
+    330|     expect(screen.getByRole('heading', { name: /cartão da sua empresa/…
+    331|     expect(screen.getByText('Pergunta 2 de 10')).toBeInTheDocument()
+       |                   ^
+    332|   })
+    333|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/features/miles-calculator/pages/CalculatorPage.test.tsx > CalculatorPage > acessibilidade do grupo de opcoes > a seta move o foco sem selecionar, para nao avancar sem querer
+TestingLibraryElementError: Unable to find an element with the text: Pergunta 1 de 10. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex min-h-screen flex-col bg-background"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"border-b border-border/60"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto flex min-h-16 items-center justify-between gap-4 w-[min(100%-2rem,40rem)]"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"inline-flex items-center gap-3.5"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m"Travion"[39m
+              [33mclass[39m=[32m"size-11 shrink-0 object-contain"[39m
+              [33mheight[39m=[32m"44"[39m
+              [33msrc[39m=[32m"/logo-travion.svg"[39m
+              [33mwidth[39m=[32m"44"[39m
+            [36m/>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"font-sans text-[1.05rem] leading-none font-medium tracking-[0.28em] uppercase"[39m
+            [36m>[39m
+              [0mTravion[0m
+            [36m</span>[39m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center gap-2 rounded-full px-3 font-sans text-sm text-travion-muted transition-colors hover:text-foreground"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-arrow-left size-4"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m12 19-7-7 7-7"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 12H5"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mAnterior[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"border-b border-border/60 py-3"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto w-[min(100%-2rem,40rem)]"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex items-center gap-4"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"shrink-0 font-sans text-xs font-medium tracking-[0.18em] text-travion-muted uppercase"[39m
+            [36m>[39m
+              [0mPergunta [0m
+              [0m1[0m
+              [0m de [0m
+              [0m9[0m
+            [36m</span>[39m
+            [36m<div[39m
+              [33maria-label[39m=[32m"Pergunta 1 de 9"[39m
+              [33maria-valuemax[39m=[32m"9"[39m
+              [33maria-valuemin[39m=[32m"1"[39m
+              [33maria-valuenow[39m=[32m"1"[39m
+              [33mclass[39m=[32m"h-px flex-1 bg-travion-line"[39m
+              [33mrole[39m=[32m"progressbar"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"h-px bg-travion-accent transition-[width] duration-500 ease-travion"[39m
+                [33mstyle[39m=[32m"width: 11%;"[39m
+              [36m/>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"mx-auto flex w-[min(100%-2rem,40rem)] flex-1 flex-col justify-center py-6"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"animate-in fade-in slide-in-from-bottom-2 duration-300"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"mb-3 text-[clamp(1.7rem,5.5vw,2.6rem)] leading-[1.1] tracking-[-0.02em]"[39m
+              [33mid[39m=[32m"question-cardPf-title"[39m
+            [36m>[39m
+              [0mQuanto você gasta por mês no cartão de crédito pessoal?[0m
+            [36m</h2>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"mb-8 text-travion-muted"[39m
+              [33mid[39m=[32m"question-cardPf-helper"[39m
+            [36m>[39m
+              [0mSome todas as faturas pessoais do mês.[0m
+            [36m</p>[39m
+            [36m<div[39m
+              [33maria-describedby[39m=[32m"question-cardPf-helper"[39m
+              [33maria-labelledby[39m=[32m"question-cardPf-title"[39m
+              [33mclass[39m=[32m"grid gap-3"[39m
+              [33mrole[39m=[32m"radiogroup"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mAté R$ 10 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"0"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mR$ 11 mil a R$ 15 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mR$ 16 mil a R$ 25 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mAcima de R$ 26 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</main>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/miles-calculator/pages/CalculatorPage.test.tsx:396:21
+    394|       expect(radios[1]).toHaveFocus()
+    395|       expect(radios[1]).not.toBeChecked()
+    396|       expect(screen.getByText('Pergunta 1 de 10')).toBeInTheDocument()
+       |                     ^
+    397|     })
+    398|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  src/features/miles-calculator/pages/CalculatorPage.test.tsx > CalculatorPage > percorre as treze telas do funil de ponta a ponta
+TestingLibraryElementError: Unable to find an element with the text: Pergunta 1 de 10. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex min-h-screen flex-col bg-background"[39m
+    [36m>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"border-b border-border/60"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto flex min-h-16 items-center justify-between gap-4 w-[min(100%-2rem,40rem)]"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"inline-flex items-center gap-3.5"[39m
+          [36m>[39m
+            [36m<img[39m
+              [33malt[39m=[32m"Travion"[39m
+              [33mclass[39m=[32m"size-11 shrink-0 object-contain"[39m
+              [33mheight[39m=[32m"44"[39m
+              [33msrc[39m=[32m"/logo-travion.svg"[39m
+              [33mwidth[39m=[32m"44"[39m
+            [36m/>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"font-sans text-[1.05rem] leading-none font-medium tracking-[0.28em] uppercase"[39m
+            [36m>[39m
+              [0mTravion[0m
+            [36m</span>[39m
+          [36m</span>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center gap-2 rounded-full px-3 font-sans text-sm text-travion-muted transition-colors hover:text-foreground"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-arrow-left size-4"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m12 19-7-7 7-7"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 12H5"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mAnterior[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"border-b border-border/60 py-3"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto w-[min(100%-2rem,40rem)]"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex items-center gap-4"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"shrink-0 font-sans text-xs font-medium tracking-[0.18em] text-travion-muted uppercase"[39m
+            [36m>[39m
+              [0mPergunta [0m
+              [0m1[0m
+              [0m de [0m
+              [0m9[0m
+            [36m</span>[39m
+            [36m<div[39m
+              [33maria-label[39m=[32m"Pergunta 1 de 9"[39m
+              [33maria-valuemax[39m=[32m"9"[39m
+              [33maria-valuemin[39m=[32m"1"[39m
+              [33maria-valuenow[39m=[32m"1"[39m
+              [33mclass[39m=[32m"h-px flex-1 bg-travion-line"[39m
+              [33mrole[39m=[32m"progressbar"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"h-px bg-travion-accent transition-[width] duration-500 ease-travion"[39m
+                [33mstyle[39m=[32m"width: 11%;"[39m
+              [36m/>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"mx-auto flex w-[min(100%-2rem,40rem)] flex-1 flex-col justify-center py-6"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"animate-in fade-in slide-in-from-bottom-2 duration-300"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"mb-3 text-[clamp(1.7rem,5.5vw,2.6rem)] leading-[1.1] tracking-[-0.02em]"[39m
+              [33mid[39m=[32m"question-cardPf-title"[39m
+            [36m>[39m
+              [0mQuanto você gasta por mês no cartão de crédito pessoal?[0m
+            [36m</h2>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"mb-8 text-travion-muted"[39m
+              [33mid[39m=[32m"question-cardPf-helper"[39m
+            [36m>[39m
+              [0mSome todas as faturas pessoais do mês.[0m
+            [36m</p>[39m
+            [36m<div[39m
+              [33maria-describedby[39m=[32m"question-cardPf-helper"[39m
+              [33maria-labelledby[39m=[32m"question-cardPf-title"[39m
+              [33mclass[39m=[32m"grid gap-3"[39m
+              [33mrole[39m=[32m"radiogroup"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"0"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mAté R$ 10 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mR$ 11 mil a R$ 15 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mR$ 16 mil a R$ 25 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"flex min-h-touch w-full items-center justify-between gap-4 rounded-2xl border px-5 text-left font-sans text-base transition-all duration-300 ease-travion hover:border-travion-accent hover:bg-travion-accent-soft focus-visible:ring-3 focus-visible:ring-ring/40 border-border bg-card"[39m
+                [33mrole[39m=[32m"radio"[39m
+                [33mtabindex[39m=[32m"-1"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0mAcima de R$ 26 mil[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"grid size-6 shrink-0 place-items-center rounded-full border transition-colors border-travion-line"[39m
+                [36m/>[39m
+              [36m</button>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</main>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/miles-calculator/pages/CalculatorPage.test.tsx:472:21
+    470|
+    471|     for (let question = 1; question <= 10; question += 1) {
+    472|       expect(screen.getByText(`Pergunta ${question} de 10`)).toBeInThe…
+       |                     ^
+    473|
+    474|       await user.click(screen.getAllByRole('radio')[0]!)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
 

@@ -21,7 +21,6 @@ function highSpenderAnswers(): QuizAnswers {
   return {
     cardPf: 'pf_above_26k',
     cardPj: 'pj_above_20k',
-    uber: 'uber_above_300',
     ifood: 'ifood_above_500',
     retailAnnual: 'retail_above_10k',
     travelAnnual: 'travel_above_10k',
@@ -38,8 +37,6 @@ describe('resolveBucketRange', () => {
       ['cardPf', 'pf_11_15k', 11_000, 15_000],
       ['cardPf', 'pf_16_25k', 16_000, 25_000],
       ['cardPj', 'pj_11_15k', 11_000, 15_000],
-      ['uber', 'uber_50_100', 50, 100],
-      ['uber', 'uber_150_300', 150, 300],
       ['ifood', 'ifood_50_200', 50, 200],
       ['ifood', 'ifood_201_300', 201, 300],
       ['ifood', 'ifood_301_500', 301, 500],
@@ -55,7 +52,6 @@ describe('resolveBucketRange', () => {
   describe('opcoes de "nao uso" viram zero nos dois cenarios', () => {
     it.each([
       ['cardPj', 'pj_none'],
-      ['uber', 'uber_zero'],
       ['ifood', 'ifood_zero'],
     ] as const)('%s / %s', (bucket, optionId) => {
       expect(resolveBucketRange(bucket, optionId, config)).toEqual({ floor: 0, ceiling: 0 })
@@ -66,7 +62,6 @@ describe('resolveBucketRange', () => {
     it.each([
       ['cardPf', 'pf_above_26k', 26_000, 40_000],
       ['cardPj', 'pj_above_20k', 20_000, 35_000],
-      ['uber', 'uber_above_300', 300, 600],
       ['ifood', 'ifood_above_500', 500, 800],
       ['retailAnnual', 'retail_above_10k', 10_000, 20_000],
       ['travelAnnual', 'travel_above_10k', 10_000, 20_000],
@@ -120,7 +115,7 @@ describe('resolveBucketRange', () => {
   })
 
   it('rejeita opcao inexistente', () => {
-    expect(() => resolveBucketRange('uber', 'uber_1_milhao', config)).toThrow(
+    expect(() => resolveBucketRange('ifood', 'ifood_1_milhao', config)).toThrow(
       /nao existe na pergunta/,
     )
   })
@@ -147,7 +142,7 @@ describe('resolveSpendProfile', () => {
     expect(profile.floor).toEqual({
       cardPfMonthly: 26_000,
       cardPjMonthly: 20_000,
-      uberMonthly: 300,
+      uberMonthly: 0,
       ifoodMonthly: 500,
       retailAnnual: 10_000,
       travelAnnual: 10_000,
@@ -156,7 +151,7 @@ describe('resolveSpendProfile', () => {
     expect(profile.ceiling).toEqual({
       cardPfMonthly: 40_000,
       cardPjMonthly: 35_000,
-      uberMonthly: 600,
+      uberMonthly: 0,
       ifoodMonthly: 800,
       retailAnnual: 20_000,
       travelAnnual: 20_000,
@@ -168,7 +163,6 @@ describe('resolveSpendProfile', () => {
       {
         cardPf: 'pf_upto_10k',
         cardPj: 'pj_none',
-        uber: 'uber_zero',
         ifood: 'ifood_zero',
         retailAnnual: 'retail_upto_2k',
         travelAnnual: 'travel_upto_2k',

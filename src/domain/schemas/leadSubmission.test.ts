@@ -14,7 +14,6 @@ function validForm(overrides: Partial<LeadFormValues> = {}): LeadFormValues {
     email: 'ana@travion.com.br',
     phone: '(12) 99764-3952',
     instagram: '',
-    consent: true,
     honeypot: '',
     ...overrides,
   }
@@ -115,14 +114,6 @@ describe('leadFormSchema', () => {
     it('recusa valor longo demais', () => {
       expect(errorFor(validForm({ instagram: 'a'.repeat(61) }), 'instagram')).toBe(
         'Usuário muito longo.',
-      )
-    })
-  })
-
-  describe('consentimento', () => {
-    it('e obrigatorio', () => {
-      expect(errorFor(validForm({ consent: false }), 'consent')).toBe(
-        'Precisamos do seu consentimento para entrar em contato.',
       )
     })
   })

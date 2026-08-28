@@ -57,7 +57,7 @@ export interface QualificationQuestion extends BaseQuestion {
 export type Question = SpendQuestion | ProfileQuestion | QualificationQuestion
 
 /**
- * As dez perguntas do funil, na ordem das telas 2 a 11.
+ * As perguntas do funil, na ordem das telas.
  *
  * A ordem nao e cosmetica: as monetarias vem primeiro, enquanto a pessoa ainda
  * esta fresca, e as de qualificacao ficam no fim, quando o compromisso
@@ -88,19 +88,6 @@ export const QUESTIONS: readonly Question[] = [
       { id: 'pj_upto_10k', label: 'Até R$ 10 mil', amount: { min: null, max: 10_000 } },
       { id: 'pj_11_15k', label: 'R$ 11 mil a R$ 15 mil', amount: { min: 11_000, max: 15_000 } },
       { id: 'pj_above_20k', label: 'Acima de R$ 20 mil', amount: { min: 20_000, max: null } },
-    ],
-  },
-  {
-    id: 'uber',
-    kind: 'spend',
-    period: 'monthly',
-    title: 'Quanto vai por mês em transporte por aplicativo?',
-    helper: 'Uber, 99 e similares.',
-    options: [
-      { id: 'uber_zero', label: 'Não uso', amount: { min: 0, max: 0 } },
-      { id: 'uber_50_100', label: 'R$ 50 a R$ 100', amount: { min: 50, max: 100 } },
-      { id: 'uber_150_300', label: 'R$ 150 a R$ 300', amount: { min: 150, max: 300 } },
-      { id: 'uber_above_300', label: 'Acima de R$ 300', amount: { min: 300, max: null } },
     ],
   },
   {
@@ -164,7 +151,7 @@ export const QUESTIONS: readonly Question[] = [
   {
     id: 'knowledgeLevel',
     kind: 'qualification',
-    title: 'Como você se descreve no mundo dos pontos?',
+    title: 'Como você se descreve no mundo das Milhas?',
     options: [
       { id: 'knowledge_none', label: 'Nunca prestei atenção nisso' },
       { id: 'knowledge_basic', label: 'Acumulo, mas não sei usar bem' },

@@ -66,12 +66,12 @@ export function ResultStep({
   const { estimate, recommendations, profile } = result
 
   return (
-    <div className="grid gap-16">
+    <div className="grid gap-10">
       <ResultHero estimate={estimate} countUpDurationMs={countUpDurationMs} />
 
       <section>
         <h2 className="mb-2 text-center text-[clamp(1.5rem,4vw,2.1rem)] leading-tight">
-          Para onde esses pontos levam
+          Para onde essas milhas levam
         </h2>
         <p className="mx-auto mb-8 max-w-[34rem] text-center text-travion-muted">
           Cinco destinos de {STYLE_LABEL[profile.travelStyle]}, do que você já alcança ao que

@@ -30,12 +30,12 @@ describe('useQuizMachine', () => {
     expect(result.current.canGoBack).toBe(false)
   })
 
-  it('anuncia treze telas e dez perguntas', () => {
+  it('anuncia doze telas e nove perguntas', () => {
     const { result } = renderMachine()
 
-    expect(result.current.totalSteps).toBe(13)
+    expect(result.current.totalSteps).toBe(12)
     expect(result.current.totalSteps).toBe(TOTAL_STEPS)
-    expect(result.current.questionCount).toBe(10)
+    expect(result.current.questionCount).toBe(9)
   })
 
   it('avanca de boas-vindas para lead e depois para a primeira pergunta', () => {
@@ -54,7 +54,7 @@ describe('useQuizMachine', () => {
     act(() => result.current.goTo(2))
 
     const visited: string[] = []
-    for (let i = 0; i < 10; i += 1) {
+    for (let i = 0; i < 9; i += 1) {
       visited.push(result.current.step.id)
       act(() => result.current.next())
     }
@@ -62,7 +62,6 @@ describe('useQuizMachine', () => {
     expect(visited).toEqual([
       'cardPf',
       'cardPj',
-      'uber',
       'ifood',
       'retailAnnual',
       'travelAnnual',
@@ -120,8 +119,8 @@ describe('useQuizMachine', () => {
     act(() => result.current.goTo(4))
     expect(result.current.questionNumber).toBe(3)
 
-    act(() => result.current.goTo(11))
-    expect(result.current.questionNumber).toBe(10)
+    act(() => result.current.goTo(10))
+    expect(result.current.questionNumber).toBe(9)
 
     act(() => result.current.goTo(RESULT_STEP_INDEX))
     expect(result.current.questionNumber).toBeNull()
@@ -151,12 +150,12 @@ describe('useQuizMachine', () => {
       const { result } = renderMachine()
 
       act(() => result.current.answer('cardPf', 'pf_16_25k'))
-      act(() => result.current.answer('uber', 'uber_zero'))
+      act(() => result.current.answer('ifood', 'ifood_zero'))
 
-      expect(result.current.answers).toEqual({ cardPf: 'pf_16_25k', uber: 'uber_zero' })
+      expect(result.current.answers).toEqual({ cardPf: 'pf_16_25k', ifood: 'ifood_zero' })
     })
 
-    it('só fica completo com as dez perguntas respondidas', () => {
+    it('só fica completo com as nove perguntas respondidas', () => {
       const { result } = renderMachine()
 
       expect(result.current.isComplete).toBe(false)
@@ -164,7 +163,6 @@ describe('useQuizMachine', () => {
       act(() => {
         result.current.answer('cardPf', 'pf_16_25k')
         result.current.answer('cardPj', 'pj_none')
-        result.current.answer('uber', 'uber_zero')
         result.current.answer('ifood', 'ifood_zero')
         result.current.answer('retailAnnual', 'retail_2_5k')
         result.current.answer('travelAnnual', 'travel_2_5k')
@@ -265,7 +263,7 @@ describe('useQuizMachine', () => {
       saveQuizState({
         stepIndex: 3,
         answers: { cardPf: 'pf_16_25k' },
-        lead: { fullName: '', email: '', phone: '', instagram: '', consent: false },
+        lead: { fullName: '', email: '', phone: '', instagram: '' },
         savedAt: Date.now(),
       })
 
@@ -308,7 +306,7 @@ describe('useQuizMachine', () => {
   })
 
   describe('lead', () => {
-    it('comeca vazio e sem consentimento', () => {
+    it('comeca vazio', () => {
       const { result } = renderMachine()
 
       expect(result.current.lead).toEqual({
@@ -316,7 +314,6 @@ describe('useQuizMachine', () => {
         email: '',
         phone: '',
         instagram: '',
-        consent: false,
       })
     })
 
@@ -333,13 +330,12 @@ describe('useQuizMachine', () => {
     it('persiste o lead entre sessoes', () => {
       const first = renderMachine()
 
-      act(() => first.result.current.updateLead({ phone: '(12) 99764-3952', consent: true }))
+      act(() => first.result.current.updateLead({ phone: '(12) 99764-3952' }))
       first.unmount()
 
       const second = renderMachine()
 
       expect(second.result.current.lead.phone).toBe('(12) 99764-3952')
-      expect(second.result.current.lead.consent).toBe(true)
     })
   })
 })

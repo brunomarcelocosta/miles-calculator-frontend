@@ -2,11 +2,12 @@ import { QUESTIONS, type Question } from '@/domain/config/questionCatalog'
 import type { QuestionId } from '@/domain/model/QuizAnswers'
 
 /**
- * As 13 telas do funil, na ordem.
+ * As telas do funil, na ordem: boas-vindas, lead, as perguntas do catalogo e
+ * o resultado.
  *
  * A sequencia e dado, nao codigo espalhado por condicionais: a maquina do quiz
  * so sabe andar para frente e para tras num array. Inserir ou remover tela e
- * mexer nesta lista.
+ * mexer nesta lista (ou no catalogo de perguntas).
  */
 export interface WelcomeStepDescriptor {
   kind: 'welcome'

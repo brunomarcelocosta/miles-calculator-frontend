@@ -14,11 +14,11 @@ import {
 } from '@/domain/model/QuizAnswers'
 
 describe('questionCatalog', () => {
-  it('tem as dez perguntas do funil, das telas 2 a 11', () => {
-    expect(QUESTIONS).toHaveLength(10)
+  it('tem as nove perguntas do funil', () => {
+    expect(QUESTIONS).toHaveLength(9)
   })
 
-  it('cobre exatamente os seis baldes de gasto, um por pergunta', () => {
+  it('cobre exatamente os cinco baldes de gasto, um por pergunta', () => {
     expect(SPEND_QUESTIONS.map((question) => question.id)).toEqual([...SPEND_BUCKET_IDS])
   })
 
@@ -117,7 +117,6 @@ describe('questionCatalog', () => {
       expect(periods).toEqual({
         cardPf: 'monthly',
         cardPj: 'monthly',
-        uber: 'monthly',
         ifood: 'monthly',
         retailAnnual: 'annual',
         travelAnnual: 'annual',

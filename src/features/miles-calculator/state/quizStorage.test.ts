@@ -15,7 +15,6 @@ import { RESULT_STEP_INDEX } from '@/features/miles-calculator/types/quizStep'
 const completeAnswers = {
   cardPf: 'pf_16_25k',
   cardPj: 'pj_none',
-  uber: 'uber_zero',
   ifood: 'ifood_zero',
   retailAnnual: 'retail_2_5k',
   travelAnnual: 'travel_2_5k',
@@ -153,12 +152,12 @@ describe('sanitizePersistedState', () => {
     ).toBe(0)
   })
 
-  it('normaliza o lead, mantendo texto e exigindo consentimento explicito', () => {
+  it('normaliza o lead, mantendo texto e descartando tipo invalido', () => {
     const state = sanitizePersistedState({
       stepIndex: 1,
       answers: {},
       savedAt: Date.now(),
-      lead: { fullName: 'Ana', email: 'ana@travion.com.br', phone: 5, consent: 'sim' },
+      lead: { fullName: 'Ana', email: 'ana@travion.com.br', phone: 5 },
     })
 
     expect(state?.lead).toEqual({
@@ -166,7 +165,6 @@ describe('sanitizePersistedState', () => {
       email: 'ana@travion.com.br',
       phone: '',
       instagram: '',
-      consent: false,
     })
   })
 
@@ -174,7 +172,6 @@ describe('sanitizePersistedState', () => {
     const state = sanitizePersistedState({ stepIndex: 0, answers: {}, savedAt: Date.now() })
 
     expect(state?.lead.fullName).toBe('')
-    expect(state?.lead.consent).toBe(false)
   })
 })
 

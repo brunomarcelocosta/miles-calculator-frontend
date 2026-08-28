@@ -9,6 +9,11 @@ import type { SpendBucketId, TravelStyle } from '@/domain/model/QuizAnswers'
 export interface SpendBuckets {
   cardPfMonthly: number
   cardPjMonthly: number
+  /**
+   * Transporte por aplicativo. A pergunta saiu do quiz a pedido de vendas, mas
+   * o campo continua no modelo (sempre 0) porque as regras de pontos ainda o
+   * somam — zerado, ele nao altera o resultado, e a parceria pode voltar.
+   */
   uberMonthly: number
   ifoodMonthly: number
   retailAnnual: number
@@ -33,7 +38,6 @@ export interface SpendProfile {
 export const SPEND_BUCKET_FIELD: Record<SpendBucketId, keyof SpendBuckets> = {
   cardPf: 'cardPfMonthly',
   cardPj: 'cardPjMonthly',
-  uber: 'uberMonthly',
   ifood: 'ifoodMonthly',
   retailAnnual: 'retailAnnual',
   travelAnnual: 'travelAnnual',

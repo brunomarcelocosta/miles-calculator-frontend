@@ -63,13 +63,6 @@ export const leadFormSchema = z.object({
     .trim()
     .max(LEAD_LIMITS.instagram, { message: 'Usuário muito longo.' }),
 
-  // `boolean` com refine, e nao `z.literal(true)`: a caixa comeca desmarcada e o
-  // tipo do formulario precisa admitir `false`, senao o resolver do
-  // react-hook-form deixa de casar com os valores reais do campo.
-  consent: z.boolean().refine((value) => value === true, {
-    message: 'Precisamos do seu consentimento para entrar em contato.',
-  }),
-
   /**
    * Honeypot. Fica escondido do usuario e visivel para robo de preenchimento
    * automatico; qualquer conteudo aqui denuncia envio automatizado.

@@ -4,7 +4,7 @@ import { ROUTES } from '@/app/config/routes'
 import { TravionLogo } from '@/shared/components/TravionLogo'
 
 /**
- * O checkbox de consentimento do formulario de lead aponta para ca. Captar
+ * O aviso de consentimento do formulario de lead aponta para ca. Captar
  * contato para abordagem comercial sem base legal declarada e exposicao LGPD
  * desnecessaria numa pagina que roda anuncio.
  *

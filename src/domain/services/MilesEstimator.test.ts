@@ -142,7 +142,6 @@ describe('MilesEstimator', () => {
     const highSpender: QuizAnswers = {
       cardPf: 'pf_above_26k',
       cardPj: 'pj_above_20k',
-      uber: 'uber_above_300',
       ifood: 'ifood_above_500',
       retailAnnual: 'retail_above_10k',
       travelAnnual: 'travel_above_10k',
@@ -155,7 +154,6 @@ describe('MilesEstimator', () => {
     const entryLevel: QuizAnswers = {
       cardPf: 'pf_upto_10k',
       cardPj: 'pj_none',
-      uber: 'uber_zero',
       ifood: 'ifood_zero',
       retailAnnual: 'retail_upto_2k',
       travelAnnual: 'travel_upto_2k',

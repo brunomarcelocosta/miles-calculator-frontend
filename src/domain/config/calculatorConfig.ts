@@ -81,9 +81,8 @@ export const DEFAULT_CALCULATOR_CONFIG: CalculatorConfig = {
     // nenhum ponto, o que nao informa nada.
     cardPf: { entryFloor: 4_000, openCap: 40_000 },
     cardPj: { entryFloor: 4_000, openCap: 35_000 },
-    // Uber e iFood tem opcao explicita de "nao uso" e as demais sao intervalos
-    // fechados, então o piso de entrada nunca e consultado nesses dois baldes.
-    uber: { entryFloor: 0, openCap: 600 },
+    // iFood tem opcao explicita de "nao uso" e as demais sao intervalos
+    // fechados, então o piso de entrada nunca e consultado nesse balde.
     ifood: { entryFloor: 0, openCap: 800 },
     retailAnnual: { entryFloor: 800, openCap: 20_000 },
     travelAnnual: { entryFloor: 800, openCap: 20_000 },

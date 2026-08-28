@@ -1,6 +1,6 @@
 import type { PointsEstimate } from '@/domain/model/PointsEstimate'
 import { useCountUp } from '@/shared/hooks/useCountUp'
-import { formatPoints } from '@/shared/lib/formatNumber'
+import { formatPoints, formatPointsRounded } from '@/shared/lib/formatNumber'
 
 interface ResultHeroProps {
   estimate: PointsEstimate
@@ -26,9 +26,9 @@ export function ResultHero({ estimate, countUpDurationMs }: ResultHeroProps) {
 
   return (
     <section className="text-center">
-      <p className="eyebrow mb-5">Sua estimativa</p>
+      <p className="eyebrow mb-3">Sua estimativa</p>
 
-      <h2 className="mb-8 text-[clamp(1.6rem,4.5vw,2.4rem)] leading-[1.15]">
+      <h2 className="mb-6 text-[clamp(1.6rem,4.5vw,2.4rem)] leading-[1.15]">
         Com os gastos que você já tem hoje, você deveria estar acumulando
       </h2>
 
@@ -37,8 +37,8 @@ export function ResultHero({ estimate, countUpDurationMs }: ResultHeroProps) {
         leitor de tela nao deve narrar um contador subindo.
       */}
       <p className="sr-only">
-        Entre {formatPoints(estimate.min.annualPoints)} e{' '}
-        {formatPoints(estimate.max.annualPoints)} pontos por ano.
+        Entre {formatPointsRounded(estimate.min.annualPoints)} e{' '}
+        {formatPointsRounded(estimate.max.annualPoints)} milhas por ano.
       </p>
 
       <div aria-hidden="true" className="mx-auto max-w-[42rem]">
@@ -46,15 +46,15 @@ export function ResultHero({ estimate, countUpDurationMs }: ResultHeroProps) {
           data-slot="estimate-range"
           className="font-serif text-[clamp(2.6rem,11vw,5.5rem)] leading-[1.02] font-medium tracking-[-0.04em]"
         >
-          {formatPoints(min)}
+          {formatPointsRounded(min)}
           <span className="mx-3 align-middle text-travion-accent">a</span>
-          {formatPoints(max)}
+          {formatPointsRounded(max)}
         </p>
 
         <div className="mx-auto mt-6 h-px w-24 bg-travion-accent" />
 
         <p className="mt-5 font-sans text-sm tracking-[0.18em] text-travion-muted uppercase">
-          pontos por ano
+          milhas por ano
         </p>
       </div>
 
@@ -70,7 +70,7 @@ export function ResultHero({ estimate, countUpDurationMs }: ResultHeroProps) {
           </p>
 
           <table className="w-full text-sm">
-            <caption className="sr-only">Detalhamento dos pontos por ano</caption>
+            <caption className="sr-only">Detalhamento das milhas por ano</caption>
             <thead>
               <tr className="text-travion-muted">
                 <th scope="col" className="pb-2 text-left font-medium">

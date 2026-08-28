@@ -56,7 +56,6 @@ async function fillLeadForm(user: User, overrides: Partial<Record<string, string
   await user.type(screen.getByLabelText('Nome completo'), overrides.fullName ?? 'Ana Souza')
   await user.type(screen.getByLabelText('Email'), overrides.email ?? 'ana@travion.com.br')
   await user.type(screen.getByLabelText('WhatsApp'), overrides.phone ?? '12997643952')
-  await user.click(screen.getByRole('checkbox'))
 }
 
 /** Vai de boas-vindas ate a primeira pergunta, passando pelo lead. */
@@ -75,7 +74,7 @@ describe('CalculatorPage', () => {
     renderPage()
 
     expect(
-      screen.getByRole('heading', { name: /Quantos pontos você deveria estar acumulando/i }),
+      screen.getByRole('heading', { name: /Quantas milhas você deveria estar acumulando/i }),
     ).toBeInTheDocument()
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Anterior' })).not.toBeInTheDocument()
@@ -153,9 +152,6 @@ describe('CalculatorPage', () => {
       expect(await screen.findByText('Informe o seu nome.')).toBeInTheDocument()
       expect(screen.getByText('Informe o seu email.')).toBeInTheDocument()
       expect(screen.getByText('Informe o seu WhatsApp.')).toBeInTheDocument()
-      expect(
-        screen.getByText('Precisamos do seu consentimento para entrar em contato.'),
-      ).toBeInTheDocument()
 
       // Continua na etapa de lead.
       expect(
@@ -255,31 +251,15 @@ describe('CalculatorPage', () => {
       )
     })
 
-    it('oferece o consentimento com link para a politica', async () => {
+    it('informa o consentimento implicito com link para a politica', async () => {
       const user = userEvent.setup()
       await goToLead(user)
 
       const link = screen.getByRole('link', { name: 'política de privacidade' })
 
       expect(link).toHaveAttribute('href', '/privacidade')
-      expect(screen.getByRole('checkbox')).not.toBeChecked()
-    })
-
-    it('nao avanca sem consentimento, mesmo com o resto preenchido', async () => {
-      const user = userEvent.setup()
-      await goToLead(user)
-
-      await user.type(screen.getByLabelText('Nome completo'), 'Ana Souza')
-      await user.type(screen.getByLabelText('Email'), 'ana@travion.com.br')
-      await user.type(screen.getByLabelText('WhatsApp'), '12997643952')
-      await user.click(screen.getByRole('button', { name: 'Continuar' }))
-
-      expect(
-        await screen.findByText('Precisamos do seu consentimento para entrar em contato.'),
-      ).toBeInTheDocument()
-      expect(
-        screen.getByRole('heading', { name: /Para onde enviamos o seu resultado/i }),
-      ).toBeInTheDocument()
+      expect(screen.getByText(/Ao continuar, você autoriza a Travion/i)).toBeInTheDocument()
+      expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
     })
 
     it('mantem o honeypot fora da ordem de tabulacao', async () => {
@@ -331,7 +311,6 @@ describe('CalculatorPage', () => {
 
       expect(screen.getByLabelText('Nome completo')).toHaveValue('Ana Souza')
       expect(screen.getByLabelText('WhatsApp')).toHaveValue('(12) 99764-3952')
-      expect(screen.getByRole('checkbox')).toBeChecked()
     })
   })
 
@@ -516,7 +495,7 @@ describe('CalculatorPage', () => {
       { timeout: 4_000 },
     )
 
-    expect(screen.getByText('pontos por ano')).toBeInTheDocument()
+    expect(screen.getByText('milhas por ano')).toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: /Falar com um especialista/ }),
     ).toBeInTheDocument()
@@ -527,12 +506,12 @@ describe('CalculatorPage', () => {
     renderPage()
     await goToFirstQuestion(user)
 
-    for (let question = 1; question <= 10; question += 1) {
+    for (let question = 1; question <= 9; question += 1) {
       await user.click(screen.getAllByRole('radio')[0]!)
 
-      if (question < 10) {
+      if (question < 9) {
         await waitFor(() =>
-          expect(screen.getByText(`Pergunta ${question + 1} de 10`)).toBeInTheDocument(),
+          expect(screen.getByText(`Pergunta ${question + 1} de 9`)).toBeInTheDocument(),
         )
       }
     }
@@ -545,7 +524,7 @@ describe('CalculatorPage', () => {
     await user.click(screen.getAllByRole('button', { name: 'Refazer o quiz' })[0]!)
 
     expect(
-      screen.getByRole('heading', { name: /Quantos pontos você deveria estar acumulando/i }),
+      screen.getByRole('heading', { name: /Quantas milhas você deveria estar acumulando/i }),
     ).toBeInTheDocument()
 
     // O rascunho do lead tambem foi descartado.

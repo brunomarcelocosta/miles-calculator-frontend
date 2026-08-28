@@ -2,15 +2,14 @@
  * Dados de contato digitados na tela de lead.
  *
  * Fica separado de `QuizAnswers` porque tem natureza diferente: resposta de quiz
- * e id de opcao, lead e texto livre com validacao e consentimento. O schema Zod
- * que valida isso entra no Task 7, em `src/domain/schemas`.
+ * e id de opcao, lead e texto livre com validacao. O consentimento e implicito
+ * no envio (registrado como `consentAt` na submissao), entao nao vive no draft.
  */
 export interface LeadDraft {
   fullName: string
   email: string
   phone: string
   instagram: string
-  consent: boolean
 }
 
 export function emptyLeadDraft(): LeadDraft {
@@ -19,6 +18,5 @@ export function emptyLeadDraft(): LeadDraft {
     email: '',
     phone: '',
     instagram: '',
-    consent: false,
   }
 }

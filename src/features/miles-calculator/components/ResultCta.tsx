@@ -4,7 +4,7 @@ import { env } from '@/app/config/env'
 import { Button } from '@/components/ui/button'
 import type { DestinationRecommendation } from '@/domain/model/Destination'
 import type { PointsEstimate } from '@/domain/model/PointsEstimate'
-import { formatPoints } from '@/shared/lib/formatNumber'
+import { formatPointsRounded } from '@/shared/lib/formatNumber'
 import { trackWhatsAppClick } from '@/shared/lib/analytics'
 
 interface ResultCtaProps {
@@ -26,9 +26,9 @@ export function buildWhatsAppMessage(
   const reachable = recommendations.filter((item) => item.withinMaximum)
   const topDestination = reachable.at(-1)?.destination.name
 
-  const range = `entre ${formatPoints(estimate.min.annualPoints)} e ${formatPoints(
+  const range = `entre ${formatPointsRounded(estimate.min.annualPoints)} e ${formatPointsRounded(
     estimate.max.annualPoints,
-  )} pontos por ano`
+  )} milhas por ano`
 
   const destinationPart = topDestination
     ? ` Fiquei interessado em ${topDestination}.`
@@ -62,7 +62,7 @@ export function ResultCta({ estimate, recommendations, onClick }: ResultCtaProps
       <p className="eyebrow mb-4 text-travion-white/70">Próximo passo</p>
 
       <h2 className="mx-auto mb-4 max-w-[30rem] text-[clamp(1.7rem,5vw,2.6rem)] leading-[1.1] text-travion-white">
-        Esses pontos não se acumulam sozinhos
+        Essas milhas não se acumulam sozinhas
       </h2>
 
       <p className="mx-auto mb-8 max-w-[34rem] text-travion-white/75">

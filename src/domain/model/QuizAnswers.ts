@@ -13,7 +13,6 @@
 export const SPEND_BUCKET_IDS = [
   'cardPf',
   'cardPj',
-  'uber',
   'ifood',
   'retailAnnual',
   'travelAnnual',

@@ -78,8 +78,6 @@ function sanitizeLead(raw: unknown): LeadDraft {
     if (typeof value === 'string') lead[key] = value
   }
 
-  lead.consent = raw.consent === true
-
   return lead
 }
 

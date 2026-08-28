@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 
 import { ROUTES } from '@/app/config/routes'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { formatBrazilianPhone } from '@/domain/lib/brazilianPhone'
 import {
@@ -31,9 +30,10 @@ interface LeadStepProps {
  *  - botao **sempre habilitado**. Botao desabilitado sem explicacao e o padrao
  *    que mais gera abandono em formulario: a pessoa nao descobre o que falta.
  *    Clicar valida, mostra todos os erros e joga o foco no primeiro;
- *  - consentimento explicito com link para a politica. Captar contato para
- *    abordagem comercial sem base legal registrada e exposicao LGPD
- *    desnecessaria numa pagina que vai rodar anuncio.
+ *  - consentimento **implicito** no clique de "Continuar", com aviso e link
+ *    para a politica logo acima do botao. O momento do consentimento fica
+ *    registrado como `consentAt` no envio — o que a LGPD exige e **quando** ele
+ *    foi dado, e reduzir um passo no funil de anuncio derruba menos gente.
  */
 export function LeadStep({ lead, onChange, onSubmit }: LeadStepProps) {
   const form = useForm<LeadFormValues>({
@@ -45,7 +45,6 @@ export function LeadStep({ lead, onChange, onSubmit }: LeadStepProps) {
       email: lead.email,
       phone: lead.phone,
       instagram: lead.instagram,
-      consent: lead.consent,
       honeypot: '',
     },
   })
@@ -66,7 +65,6 @@ export function LeadStep({ lead, onChange, onSubmit }: LeadStepProps) {
       email: values.email,
       phone: values.phone,
       instagram: values.instagram,
-      consent: values.consent === true,
     })
   }
 
@@ -172,33 +170,19 @@ export function LeadStep({ lead, onChange, onSubmit }: LeadStepProps) {
         </div>
 
         <div className="grid gap-2">
-          <div className="flex items-start gap-3">
-            <Checkbox
-              id="lead-consent"
-              aria-invalid={Boolean(errors.consent)}
-              aria-describedby={errors.consent ? 'lead-consent-error' : undefined}
-              {...form.register('consent')}
-            />
-
-            <label htmlFor="lead-consent" className="font-sans text-sm text-travion-muted">
-              Autorizo a Travion a usar meus dados para entrar em contato, conforme a{' '}
-              <Link
-                to={ROUTES.PRIVACY}
-                target="_blank"
-                rel="noreferrer"
-                className="text-foreground underline underline-offset-4"
-              >
-                política de privacidade
-              </Link>
-              .
-            </label>
-          </div>
-
-          {errors.consent ? (
-            <p id="lead-consent-error" className="text-sm text-destructive">
-              {errors.consent.message}
-            </p>
-          ) : null}
+          <p className="font-sans text-sm text-travion-muted">
+            Ao continuar, você autoriza a Travion a usar seus dados para entrar em contato,
+            conforme a{' '}
+            <Link
+              to={ROUTES.PRIVACY}
+              target="_blank"
+              rel="noreferrer"
+              className="text-foreground underline underline-offset-4"
+            >
+              política de privacidade
+            </Link>
+            .
+          </p>
         </div>
 
         <Button type="submit" size="lg" className="mt-2">
