@@ -2,13 +2,6 @@
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
-[build.args]
-VITE_API_BASE_URL = "${{VITE_API_BASE_URL}}"
-VITE_WHATSAPP_NUMBER = "${{VITE_WHATSAPP_NUMBER}}"
-VITE_PUBLIC_APP_URL = "${{VITE_PUBLIC_APP_URL}}"
-VITE_GTM_ID = "${{VITE_GTM_ID}}"
-VITE_META_PIXEL_ID = "${{VITE_META_PIXEL_ID}}"
-
 [deploy]
 healthcheckPath = "/"
 healthcheckTimeout = 30

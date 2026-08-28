@@ -9,18 +9,8 @@ RUN npm ci
 
 COPY . .
 
-ARG VITE_API_BASE_URL
-ARG VITE_WHATSAPP_NUMBER
-ARG VITE_PUBLIC_APP_URL
-ARG VITE_GTM_ID
-ARG VITE_META_PIXEL_ID
-
-ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
-ENV VITE_WHATSAPP_NUMBER=$VITE_WHATSAPP_NUMBER
-ENV VITE_PUBLIC_APP_URL=$VITE_PUBLIC_APP_URL
-ENV VITE_GTM_ID=$VITE_GTM_ID
-ENV VITE_META_PIXEL_ID=$VITE_META_PIXEL_ID
-
+# O Vite carrega .env.production automaticamente em `vite build`.
+# As variaveis VITE_* nao sao segredo (URLs e numero publico).
 RUN npm run build
 
 # ---------- Production ----------

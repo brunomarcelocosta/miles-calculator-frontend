@@ -1,7 +1,8 @@
 node_modules
 dist
 .git
-.env*
+.env.development
+.env.local
 *.md
 .vscode
 .kiro
