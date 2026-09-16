@@ -88,7 +88,7 @@ export function isMobilePhone(value: string): boolean {
   return digits.length === 11 && digits.startsWith('9', 2)
 }
 
-/** Formato aceito pelo `wa.me` e pela coluna do banco: `5512997643952`. */
+/** Formato aceito pelo `wa.me` e pela coluna do banco: `5512997431338`. */
 export function toWhatsAppNumber(value: string): string {
   return `${BRAZIL_COUNTRY_CODE}${phoneDigits(value)}`
 }

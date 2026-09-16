@@ -211,7 +211,7 @@ describe('leadContactSchema', () => {
   })
 
   it('recusa telefone com codigo do pais', () => {
-    expect(leadContactSchema.safeParse({ ...contact, phone: '5512997643952' }).success).toBe(
+    expect(leadContactSchema.safeParse({ ...contact, phone: '5512997431338' }).success).toBe(
       false,
     )
   })

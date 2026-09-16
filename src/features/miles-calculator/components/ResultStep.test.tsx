@@ -286,7 +286,7 @@ describe('ResultStep', () => {
       const cta = screen.getByRole('link', { name: /Falar com um especialista/ })
 
       expect(cta).toHaveAttribute('target', '_blank')
-      expect(cta.getAttribute('href')).toContain('https://wa.me/5512997643952')
+      expect(cta.getAttribute('href')).toContain('https://wa.me/5512997431338')
     })
 
     it('leva a faixa estimada na mensagem pre-preenchida', () => {
@@ -368,7 +368,7 @@ describe('buildWhatsAppUrl', () => {
 
     const url = buildWhatsAppUrl(estimate, recommendations)
 
-    expect(url.startsWith('https://wa.me/5512997643952?text=')).toBe(true)
+    expect(url.startsWith('https://wa.me/5512997431338?text=')).toBe(true)
     // Espaco cru na URL quebraria o link no WhatsApp.
     expect(url).not.toContain(' ')
   })

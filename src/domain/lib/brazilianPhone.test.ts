@@ -16,7 +16,7 @@ describe('phoneDigits', () => {
 
   it('descarta o codigo do pais colado do WhatsApp', () => {
     expect(phoneDigits('+55 12 99764-3952')).toBe('12997643952')
-    expect(phoneDigits('5512997643952')).toBe('12997643952')
+    expect(phoneDigits('5512997431338')).toBe('12997643952')
   })
 
   it('nao confunde DDD 55 com codigo do pais em numero de tamanho nacional', () => {
@@ -119,10 +119,10 @@ describe('isMobilePhone', () => {
 
 describe('toWhatsAppNumber', () => {
   it('monta o formato aceito pelo wa.me', () => {
-    expect(toWhatsAppNumber('(12) 99764-3952')).toBe('5512997643952')
+    expect(toWhatsAppNumber('(12) 99764-3952')).toBe('5512997431338')
   })
 
   it('nao duplica o codigo do pais', () => {
-    expect(toWhatsAppNumber('+55 12 99764-3952')).toBe('5512997643952')
+    expect(toWhatsAppNumber('+55 12 99764-3952')).toBe('5512997431338')
   })
 })

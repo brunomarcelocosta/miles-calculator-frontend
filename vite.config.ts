@@ -45,7 +45,7 @@ export default defineConfig({
     // suite independente dos arquivos .env da maquina de quem roda.
     env: {
       VITE_API_BASE_URL: '/api',
-      VITE_WHATSAPP_NUMBER: '5512997643952',
+      VITE_WHATSAPP_NUMBER: '5512997431338',
       VITE_PUBLIC_APP_URL: 'http://localhost:5173',
       VITE_GTM_ID: '',
       VITE_META_PIXEL_ID: '',
