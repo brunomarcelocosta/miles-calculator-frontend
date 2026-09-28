@@ -32,12 +32,12 @@ function renderPage() {
   return render(<QueryClientProvider client={queryClient}><MemoryRouter><CalculatorPage /></MemoryRouter></QueryClientProvider>)
 }
 
-async function enterLead(user: ReturnType<typeof userEvent.setup>) {
+async function enterLead(user: ReturnType<typeof userEvent.setup>, phone = '12997643952') {
   await screen.findByRole('button', { name: 'Começar agora' })
   await user.click(screen.getByRole('button', { name: 'Começar agora' }))
   await user.type(screen.getByLabelText('Nome completo'), 'Ana Souza')
   await user.type(screen.getByLabelText('Email'), 'ana@travion.com.br')
-  await user.type(screen.getByLabelText('WhatsApp'), '12997643952')
+  await user.type(screen.getByLabelText('WhatsApp'), phone)
   await user.click(screen.getByRole('button', { name: 'Continuar' }))
   await screen.findByRole('heading', { name: /cartão de crédito pessoal/i })
 }
@@ -49,10 +49,41 @@ describe('CalculatorPage com backend como fonte do resultado', () => {
     await enterLead(user)
     expect(createLead).toHaveBeenCalledWith(expect.objectContaining({
       email: 'ana@travion.com.br',
-      phone: '12997643952',
+      phone: '+5512997643952',
       submissionId: expect.any(String),
     }))
     expect(screen.getByText('Pergunta 1 de 9')).toBeInTheDocument()
+  })
+
+  it.each([
+    ['+1 (416) 555-0123', '+14165550123'],
+    ['+44 7911 123456', '+447911123456'],
+    ['+351 912 345 678', '+351912345678'],
+  ])('envia o número internacional %s completo', async (phone, expected) => {
+    const user = userEvent.setup()
+    renderPage()
+    await enterLead(user, phone)
+    expect(createLead).toHaveBeenCalledWith(expect.objectContaining({ phone: expected }))
+    expect(JSON.parse(window.localStorage.getItem('travion:miles-calculator:lead:v1')!))
+      .toEqual(expect.objectContaining({ phone: expected }))
+  })
+
+  it('mantém o número internacional e o identificador ao repetir um envio que falhou', async () => {
+    vi.mocked(createLead).mockRejectedValueOnce(new Error('offline'))
+    const user = userEvent.setup()
+    renderPage()
+    await user.click(await screen.findByRole('button', { name: 'Começar agora' }))
+    await user.type(screen.getByLabelText('Nome completo'), 'Ana Souza')
+    await user.type(screen.getByLabelText('Email'), 'ana@travion.com.br')
+    await user.type(screen.getByLabelText('WhatsApp'), '+1 (416) 555-0123')
+    await user.click(screen.getByRole('button', { name: 'Continuar' }))
+    await screen.findByRole('alert')
+    const firstSubmission = vi.mocked(createLead).mock.calls[0]![0]
+    await user.click(screen.getByRole('button', { name: 'Continuar' }))
+    await screen.findByRole('heading', { name: /cartão de crédito pessoal/i })
+    expect(createLead).toHaveBeenLastCalledWith(expect.objectContaining({
+      phone: '+14165550123', submissionId: firstSubmission.submissionId,
+    }))
   })
 
   it('só avança quando a resposta foi salva', async () => {

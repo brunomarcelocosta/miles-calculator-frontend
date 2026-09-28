@@ -9,8 +9,7 @@ import { WelcomeStep } from '@/features/miles-calculator/components/WelcomeStep'
 import { useQuizMachine } from '@/features/miles-calculator/hooks/useQuizMachine'
 import { useTrackingParams } from '@/features/miles-calculator/hooks/useTrackingParams'
 import { createLead, updateLeadStep, completeLead, getQuiz } from '@/features/miles-calculator/api/leadsApi'
-import { phoneDigits } from '@/domain/lib/brazilianPhone'
-import { normalizeInstagram } from '@/domain/schemas/leadSubmission'
+import { toLeadContact } from '@/domain/schemas/leadSubmission'
 import { trackLeadSubmitted, trackQuizComplete } from '@/shared/lib/analytics'
 import type { LeadFormValues } from '@/domain/schemas/leadSubmission'
 import type { Question } from '@/domain/config/questionCatalog'
@@ -77,8 +76,9 @@ function CalculatorFlow({ questions }: { questions: readonly Question[] }) {
     if (busy) return
     setBusy(true)
     setError(null)
-    const canonicalEmail = values.email.trim().toLowerCase()
-    const canonicalPhone = phoneDigits(values.phone)
+    const contact = toLeadContact(values)
+    const canonicalEmail = contact.email
+    const canonicalPhone = contact.phone
     const submissionId = session?.email === canonicalEmail && session?.phone === canonicalPhone
       ? session.submissionId
       : crypto.randomUUID()
@@ -88,11 +88,7 @@ function CalculatorFlow({ questions }: { questions: readonly Question[] }) {
     try {
       const response = await createLead({
         submissionId,
-        fullName: values.fullName.trim().replace(/\s+/g, ' '),
-        email: canonicalEmail,
-        phone: canonicalPhone,
-        instagram: normalizeInstagram(values.instagram),
-        consentAt: new Date().toISOString(),
+        ...contact,
         utmSource: tracking.utmSource,
         utmMedium: tracking.utmMedium,
         utmCampaign: tracking.utmCampaign,

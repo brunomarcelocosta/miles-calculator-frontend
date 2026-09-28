@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import { ROUTES } from '@/app/config/routes'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { formatBrazilianPhone } from '@/domain/lib/brazilianPhone'
 import {
   LEAD_LIMITS,
   leadFormSchema,
@@ -121,25 +120,17 @@ export function LeadStep({ lead, onChange, onSubmit, busy = false, error }: Lead
         <FormField
           label="WhatsApp"
           error={errors.phone?.message}
-          hint="É por aqui que um especialista fala com você."
+          hint="Aceitamos números de qualquer país. Fora do Brasil, inclua + e o código do país (ex.: +1 416 555 0123). No Brasil, pode usar DDD e número."
         >
           {(field) => (
             <Input
               {...field}
-              {...form.register('phone', {
-                // A mascara e aplicada na propria mudanca, para o campo nunca
-                // exibir digito solto sem formato.
-                onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-                  form.setValue('phone', formatBrazilianPhone(event.target.value), {
-                    shouldValidate: form.formState.isSubmitted,
-                  })
-                },
-              })}
+              {...form.register('phone')}
               type="tel"
               inputMode="tel"
               autoComplete="tel"
               maxLength={LEAD_LIMITS.phone}
-              placeholder="(12) 99764-3952"
+              placeholder="+55 12 99764-3952"
             />
           )}
         </FormField>

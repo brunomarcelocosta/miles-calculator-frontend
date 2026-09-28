@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { isValidBrazilianPhone, phoneDigits } from '@/domain/lib/brazilianPhone'
+import { isValidPhone, normalizePhone } from '@/domain/lib/internationalPhone'
 
 /**
  * Contrato do lead, compartilhado entre o formulario e a API.
@@ -9,7 +9,7 @@ import { isValidBrazilianPhone, phoneDigits } from '@/domain/lib/brazilianPhone'
  *
  *  - `leadFormSchema` valida **o que a pessoa digitou**, com o telefone ainda
  *    mascarado e mensagens escritas para aparecer embaixo do campo;
- *  - `leadContactSchema` valida a **forma canonica**, com telefone so em digitos
+ *  - `leadContactSchema` valida a **forma canonica**, com telefone internacional
  *    e Instagram normalizado, e e esse que o DTO da API espelha.
  *
  * Separar os dois evita transformacao dentro do schema do formulario, que faria o
@@ -20,7 +20,7 @@ import { isValidBrazilianPhone, phoneDigits } from '@/domain/lib/brazilianPhone'
 export const LEAD_LIMITS = {
   fullName: 160,
   email: 180,
-  phone: 20,
+  phone: 40,
   instagram: 60,
 } as const
 
@@ -53,8 +53,9 @@ export const leadFormSchema = z.object({
     .string()
     .trim()
     .min(1, { message: 'Informe o seu WhatsApp.' })
-    .refine(isValidBrazilianPhone, {
-      message: 'Informe DDD e número, como (12) 99764-3952.',
+    .max(LEAD_LIMITS.phone, { message: 'Telefone muito longo.' })
+    .refine(isValidPhone, {
+      message: 'Informe um telefone válido. Fora do Brasil, inclua + e o código do país.',
     }),
 
   // Opcional de verdade: string vazia e resposta valida.
@@ -87,11 +88,11 @@ export function normalizeInstagram(value: string): string | null {
 export const leadContactSchema = z.object({
   fullName: z.string().trim().min(1).max(LEAD_LIMITS.fullName),
   email: z.string().trim().max(LEAD_LIMITS.email).refine(looksLikeEmail),
-  /** Somente digitos nacionais, sem o 55. */
+  /** E.164: sinal +, codigo do pais e numero completo. */
   phone: z
     .string()
-    .regex(/^\d{10,11}$/, { message: 'Telefone deve conter apenas DDD e número.' })
-    .refine(isValidBrazilianPhone),
+    .regex(/^\+[1-9]\d{1,14}$/, { message: 'Telefone deve estar no formato internacional.' })
+    .refine(isValidPhone),
   instagram: z.string().trim().max(LEAD_LIMITS.instagram).nullable(),
   /** Momento em que o consentimento foi dado, em ISO 8601. */
   consentAt: z.iso.datetime(),
@@ -109,10 +110,13 @@ export function toLeadContact(
   values: LeadFormValues,
   consentAt: Date = new Date(),
 ): LeadContact {
+  const phone = normalizePhone(values.phone)
+  if (!phone) throw new Error('Telefone inválido.')
+
   return {
     fullName: values.fullName.trim().replace(/\s+/g, ' '),
     email: values.email.trim().toLowerCase(),
-    phone: phoneDigits(values.phone),
+    phone,
     instagram: normalizeInstagram(values.instagram),
     consentAt: consentAt.toISOString(),
   }

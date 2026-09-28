@@ -89,7 +89,7 @@ describe('leadFormSchema', () => {
 
     it('recusa numero incompleto', () => {
       expect(errorFor(validForm({ phone: '(12) 9976' }), 'phone')).toBe(
-        'Informe DDD e número, como (12) 99764-3952.',
+        'Informe um telefone válido. Fora do Brasil, inclua + e o código do país.',
       )
     })
 
@@ -167,7 +167,7 @@ describe('toLeadContact', () => {
     expect(contact).toEqual({
       fullName: 'Ana Souza',
       email: 'ana@travion.com.br',
-      phone: '12997643952',
+      phone: '+5512997643952',
       instagram: 'travion',
       consentAt: '2026-08-25T18:00:00.000Z',
     })
@@ -195,7 +195,7 @@ describe('leadContactSchema', () => {
   const contact = {
     fullName: 'Ana Souza',
     email: 'ana@travion.com.br',
-    phone: '12997643952',
+    phone: '+5512997643952',
     instagram: null,
     consentAt: '2026-08-25T18:00:00.000Z',
   }
@@ -210,7 +210,7 @@ describe('leadContactSchema', () => {
     )
   })
 
-  it('recusa telefone com codigo do pais', () => {
+  it('recusa telefone internacional sem o sinal +', () => {
     expect(leadContactSchema.safeParse({ ...contact, phone: '5512997431338' }).success).toBe(
       false,
     )
