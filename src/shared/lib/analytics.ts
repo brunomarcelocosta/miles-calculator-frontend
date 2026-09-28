@@ -65,6 +65,8 @@ export function trackWhatsAppClick(): void {
   trackPixelEvent('Contact')
 }
 
-export function trackAdminLogin(): void {
-  pushToDataLayer('admin_login')
+export function trackDiagnosticEvent(event: 'lead_submitted' | 'quiz_step' | 'quiz_step_view' | 'quiz_complete', params: Record<string, unknown>): void {
+  pushToDataLayer(event, params)
+  if (event === 'lead_submitted') trackPixelEvent('Lead', params)
+  if (event === 'quiz_complete') trackPixelEvent('CompleteRegistration', params)
 }

@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { QUESTIONS } from '@/domain/config/questionCatalog'
-import { CalculatorPage } from '@/features/miles-calculator/pages/CalculatorPage'
+import { LegacyCalculatorPage as CalculatorPage } from '@/features/miles-calculator/pages/LegacyCalculatorPage'
 import { createLead, updateLeadStep, completeLead } from '@/features/miles-calculator/api/leadsApi'
 
 vi.mock('@/features/miles-calculator/api/leadsApi', () => ({

@@ -3,7 +3,7 @@ import { QueryClient } from '@tanstack/react-query'
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // A landing quase nao le dados; o portal admin le pouco e tolera cache.
+      // O diagnóstico consulta o resultado no servidor e tolera cache breve.
       staleTime: 30_000,
       retry: 1,
       refetchOnWindowFocus: false,

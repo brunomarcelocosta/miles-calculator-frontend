@@ -24,12 +24,10 @@ export default defineConfig({
     },
   },
   build: {
-    // O portal admin nunca deve pesar a landing de trafego pago, então ele sai
-    // em chunk proprio. O motor de calculo tambem, porque e reaproveitado.
+    // Mantém o motor histórico separado para sessões v1 em andamento.
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('/src/features/admin/')) return 'admin'
           if (id.includes('/src/domain/')) return 'domain'
           return undefined
         },
