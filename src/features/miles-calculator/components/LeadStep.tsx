@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
 import { ROUTES } from '@/app/config/routes'
@@ -12,6 +12,7 @@ import {
 } from '@/domain/schemas/leadSubmission'
 import type { LeadDraft } from '@/features/miles-calculator/types/lead'
 import { FormField } from '@/shared/components/FormField'
+import { PhoneInput } from '@/shared/components/PhoneInput'
 
 interface LeadStepProps {
   lead: LeadDraft
@@ -120,17 +121,15 @@ export function LeadStep({ lead, onChange, onSubmit, busy = false, error }: Lead
         <FormField
           label="WhatsApp"
           error={errors.phone?.message}
-          hint="Aceitamos números de qualquer país. Fora do Brasil, inclua + e o código do país (ex.: +1 416 555 0123). No Brasil, pode usar DDD e número."
+          hint="Selecione o país e informe seu número com o código de área."
         >
           {(field) => (
-            <Input
-              {...field}
-              {...form.register('phone')}
-              type="tel"
-              inputMode="tel"
-              autoComplete="tel"
-              maxLength={LEAD_LIMITS.phone}
-              placeholder="+55 12 99764-3952"
+            <Controller
+              name="phone"
+              control={form.control}
+              render={({ field: phone }) => (
+                <PhoneInput {...field} {...phone} maxLength={LEAD_LIMITS.phone} />
+              )}
             />
           )}
         </FormField>

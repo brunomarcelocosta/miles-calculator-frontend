@@ -32,11 +32,12 @@ function renderPage() {
   return render(<QueryClientProvider client={queryClient}><MemoryRouter><CalculatorPage /></MemoryRouter></QueryClientProvider>)
 }
 
-async function enterLead(user: ReturnType<typeof userEvent.setup>, phone = '12997643952') {
+async function enterLead(user: ReturnType<typeof userEvent.setup>, phone = '12997643952', country = 'BR') {
   await screen.findByRole('button', { name: 'Começar agora' })
   await user.click(screen.getByRole('button', { name: 'Começar agora' }))
   await user.type(screen.getByLabelText('Nome completo'), 'Ana Souza')
   await user.type(screen.getByLabelText('Email'), 'ana@travion.com.br')
+  await user.selectOptions(screen.getByRole('combobox', { name: 'País do WhatsApp' }), country)
   await user.type(screen.getByLabelText('WhatsApp'), phone)
   await user.click(screen.getByRole('button', { name: 'Continuar' }))
   await screen.findByRole('heading', { name: /cartão de crédito pessoal/i })
@@ -66,6 +67,24 @@ describe('CalculatorPage com backend como fonte do resultado', () => {
     expect(createLead).toHaveBeenCalledWith(expect.objectContaining({ phone: expected }))
     expect(JSON.parse(window.localStorage.getItem('travion:miles-calculator:lead:v1')!))
       .toEqual(expect.objectContaining({ phone: expected }))
+  })
+
+  it.each([
+    ['BR', '12997643952', '(12) 99764-3952', '+5512997643952'],
+    ['CA', '4165550123', '(416) 555-0123', '+14165550123'],
+    ['PT', '912345678', '912 345 678', '+351912345678'],
+  ])('formata e envia o número nacional com o país %s', async (country, phone, formatted, expected) => {
+    const user = userEvent.setup()
+    renderPage()
+    await user.click(await screen.findByRole('button', { name: 'Começar agora' }))
+    await user.type(screen.getByLabelText('Nome completo'), 'Ana Souza')
+    await user.type(screen.getByLabelText('Email'), 'ana@travion.com.br')
+    await user.selectOptions(screen.getByRole('combobox', { name: 'País do WhatsApp' }), country)
+    await user.type(screen.getByLabelText('WhatsApp'), phone)
+    expect(screen.getByLabelText('WhatsApp')).toHaveValue(formatted)
+    await user.click(screen.getByRole('button', { name: 'Continuar' }))
+    await screen.findByRole('heading', { name: /cartão de crédito pessoal/i })
+    expect(createLead).toHaveBeenCalledWith(expect.objectContaining({ phone: expected }))
   })
 
   it('mantém o número internacional e o identificador ao repetir um envio que falhou', async () => {
