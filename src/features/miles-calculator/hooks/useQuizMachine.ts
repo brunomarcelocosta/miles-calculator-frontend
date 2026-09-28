@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { QuestionId, QuizAnswers } from '@/domain/model/QuizAnswers'
+import type { Question } from '@/domain/config/questionCatalog'
 import {
   clearQuizState,
   initialQuizState,
@@ -10,10 +11,7 @@ import {
 } from '@/features/miles-calculator/state/quizStorage'
 import type { LeadDraft } from '@/features/miles-calculator/types/lead'
 import {
-  QUESTION_STEP_COUNT,
   QUIZ_STEPS,
-  RESULT_STEP_INDEX,
-  questionNumberAt,
   type QuizStepDescriptor,
 } from '@/features/miles-calculator/types/quizStep'
 
@@ -26,6 +24,7 @@ export const STEP_TRANSITION_MS = 250
 export interface UseQuizMachineOptions {
   /** Zero desliga o avanco automatico, util em teste. */
   advanceDelayMs?: number
+  questions?: readonly Question[]
 }
 
 export interface QuizMachine {
@@ -69,11 +68,23 @@ function stepAt(index: number): QuizStepDescriptor {
  */
 export function useQuizMachine(options: UseQuizMachineOptions = {}): QuizMachine {
   const advanceDelayMs = options.advanceDelayMs ?? STEP_TRANSITION_MS
+  const steps = useMemo<readonly QuizStepDescriptor[]>(
+    () => options.questions
+      ? [
+          { kind: 'welcome', id: 'welcome' },
+          { kind: 'lead', id: 'lead' },
+          ...options.questions.map((question): QuizStepDescriptor => ({ kind: 'question', id: question.id, question })),
+          { kind: 'result', id: 'result' },
+        ]
+      : QUIZ_STEPS,
+    [options.questions],
+  )
+  const resultIndex = steps.length - 1
 
   // Retomada acontece na inicializacao, e nao num efeito, para nao haver um
   // primeiro quadro na tela de boas-vindas antes de pular para o passo salvo.
   const [state, setState] = useState<PersistedQuizState>(
-    () => loadQuizState() ?? initialQuizState(),
+    () => loadQuizState(options.questions) ?? initialQuizState(),
   )
 
   const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -95,19 +106,19 @@ export function useQuizMachine(options: UseQuizMachineOptions = {}): QuizMachine
     cancelPendingAdvance()
     setState((current) => ({
       ...current,
-      stepIndex: Math.min(Math.max(stepIndex, 0), RESULT_STEP_INDEX),
+      stepIndex: Math.min(Math.max(stepIndex, 0), resultIndex),
       savedAt: Date.now(),
     }))
-  }, [cancelPendingAdvance])
+  }, [cancelPendingAdvance, resultIndex])
 
   const next = useCallback(() => {
     cancelPendingAdvance()
     setState((current) => ({
       ...current,
-      stepIndex: Math.min(current.stepIndex + 1, RESULT_STEP_INDEX),
+      stepIndex: Math.min(current.stepIndex + 1, resultIndex),
       savedAt: Date.now(),
     }))
-  }, [cancelPendingAdvance])
+  }, [cancelPendingAdvance, resultIndex])
 
   const back = useCallback(() => {
     cancelPendingAdvance()
@@ -160,22 +171,24 @@ export function useQuizMachine(options: UseQuizMachineOptions = {}): QuizMachine
     setState(initialQuizState())
   }, [cancelPendingAdvance])
 
-  const step = useMemo(() => stepAt(state.stepIndex), [state.stepIndex])
+  const step = steps[Math.min(state.stepIndex, resultIndex)] ?? stepAt(0)
 
   const isComplete = useMemo(
     () =>
-      QUIZ_STEPS.every((candidate) =>
+      steps.every((candidate) =>
         candidate.kind === 'question' ? Boolean(state.answers[candidate.id]) : true,
       ),
-    [state.answers],
+    [state.answers, steps],
   )
 
   return {
     step,
     stepIndex: state.stepIndex,
-    totalSteps: QUIZ_STEPS.length,
-    questionNumber: questionNumberAt(state.stepIndex),
-    questionCount: QUESTION_STEP_COUNT,
+    totalSteps: steps.length,
+    questionNumber: step.kind === 'question'
+      ? steps.slice(0, state.stepIndex + 1).filter((candidate) => candidate.kind === 'question').length
+      : null,
+    questionCount: steps.filter((candidate) => candidate.kind === 'question').length,
     answers: state.answers,
     lead: state.lead,
     canGoBack: state.stepIndex > 0,

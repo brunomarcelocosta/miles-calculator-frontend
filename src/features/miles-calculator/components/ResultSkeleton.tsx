@@ -1,14 +1,10 @@
-import { RECOMMENDATION_COUNT } from '@/domain/services/DestinationRecommender'
-
 /**
  * Estado de calculo.
  *
- * O motor roda no cliente e responde em milissegundos, então esta tela existe por
- * percepcao, nao por espera tecnica: um resultado que aparece instantaneamente
- * depois de dez perguntas parece pre-fabricado. O esqueleto tem a mesma forma do
- * resultado final, o que evita o salto de layout quando ele chega.
+ * O esqueleto prepara a apresentação do resultado recebido do servidor e
+ * mantém a mesma quantidade de destinos para evitar salto de layout.
  */
-export function ResultSkeleton() {
+export function ResultSkeleton({ destinationCount = 5 }: { destinationCount?: number }) {
   return (
     <div role="status" aria-live="polite" className="animate-pulse">
       <span className="sr-only">Calculando a sua estimativa de milhas.</span>
@@ -25,7 +21,7 @@ export function ResultSkeleton() {
         <div className="mx-auto mb-8 h-5 w-56 rounded-full bg-travion-line" />
 
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: RECOMMENDATION_COUNT }, (_, index) => (
+          {Array.from({ length: destinationCount }, (_, index) => (
             <li
               key={index}
               className="overflow-hidden rounded-2xl border border-border bg-card"

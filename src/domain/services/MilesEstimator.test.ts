@@ -175,23 +175,24 @@ describe('MilesEstimator', () => {
     it('calcula o perfil alto com os numeros esperados', () => {
       const estimate = estimator.estimate(resolveSpendProfile(highSpender, provider))
 
-      // Piso: PF 26.000 + 300 Uber + 500 iFood = 26.800/mes; PJ 20.000/mes
-      //   cartao ..... 210.000/ano
-      //   parceiros ..  48.000/ano
+      // A pergunta de Uber saiu do quiz; só o iFood alimenta parceiros.
+      // Piso: PF 26.000; PJ 20.000; iFood 500/mês.
+      //   cartao ..... 208.333/ano
+      //   parceiros ..  30.000/ano
       //   bonificadas . 100.000/ano
       expect(estimate.min.contributions.map((item) => item.annualPoints)).toEqual([
-        210_000, 48_000, 100_000,
+        208_333, 30_000, 100_000,
       ])
-      expect(estimate.min.annualPoints).toBe(358_000)
+      expect(estimate.min.annualPoints).toBe(338_333)
       expect(estimate.min.transferBonusPoints).toBe(0)
 
-      // Teto: PF 40.000 + 600 + 800 = 41.400/mes; PJ 35.000/mes
+      // Teto: PF 40.000; PJ 35.000; iFood 800/mês.
       expect(estimate.max.contributions.map((item) => item.annualPoints)).toEqual([
-        368_889, 84_000, 200_000,
+        365_556, 48_000, 200_000,
       ])
-      expect(estimate.max.basePoints).toBe(652_889)
-      expect(estimate.max.transferBonusPoints).toBe(163_222)
-      expect(estimate.max.annualPoints).toBe(816_111)
+      expect(estimate.max.basePoints).toBe(613_556)
+      expect(estimate.max.transferBonusPoints).toBe(153_389)
+      expect(estimate.max.annualPoints).toBe(766_945)
     })
 
     it('mantem a faixa larga o bastante para ser informativa', () => {

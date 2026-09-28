@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { usePrefersReducedMotion } from '@/shared/hooks/usePrefersReducedMotion'
 
@@ -27,20 +27,11 @@ export function useCountUp(target: number, options: UseCountUpOptions = {}): num
   const shouldAnimate = enabled && !prefersReducedMotion && durationMs > 0 && target > 0
 
   const [value, setValue] = useState(() => (shouldAnimate ? 0 : target))
-  const frameRef = useRef<number | null>(null)
-
   useEffect(() => {
-    if (!enabled) {
-      setValue(0)
-      return
-    }
-
-    if (!shouldAnimate) {
-      setValue(target)
-      return
-    }
+    if (!shouldAnimate) return
 
     const startedAt = performance.now()
+    let frame: number
 
     const tick = (now: number) => {
       const progress = Math.min((now - startedAt) / durationMs, 1)
@@ -48,16 +39,16 @@ export function useCountUp(target: number, options: UseCountUpOptions = {}): num
       setValue(Math.round(target * easeOutCubic(progress)))
 
       if (progress < 1) {
-        frameRef.current = requestAnimationFrame(tick)
+        frame = requestAnimationFrame(tick)
       }
     }
 
-    frameRef.current = requestAnimationFrame(tick)
+    frame = requestAnimationFrame(tick)
 
     return () => {
-      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
+      cancelAnimationFrame(frame)
     }
-  }, [durationMs, enabled, shouldAnimate, target])
+  }, [durationMs, shouldAnimate, target])
 
-  return value
+  return !enabled ? 0 : shouldAnimate ? value : target
 }

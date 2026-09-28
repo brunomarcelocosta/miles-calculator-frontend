@@ -18,6 +18,8 @@ interface LeadStepProps {
   lead: LeadDraft
   onChange: (patch: Partial<LeadDraft>) => void
   onSubmit: (values: LeadFormValues) => void
+  busy?: boolean
+  error?: string | null
 }
 
 /**
@@ -35,7 +37,7 @@ interface LeadStepProps {
  *    registrado como `consentAt` no envio — o que a LGPD exige e **quando** ele
  *    foi dado, e reduzir um passo no funil de anuncio derruba menos gente.
  */
-export function LeadStep({ lead, onChange, onSubmit }: LeadStepProps) {
+export function LeadStep({ lead, onChange, onSubmit, busy = false, error }: LeadStepProps) {
   const form = useForm<LeadFormValues>({
     resolver: zodResolver(leadFormSchema),
     mode: 'onBlur',
@@ -73,11 +75,11 @@ export function LeadStep({ lead, onChange, onSubmit }: LeadStepProps) {
       <p className="eyebrow mb-4">Antes de começar</p>
 
       <h2 className="mb-3 text-[clamp(1.7rem,5.5vw,2.6rem)] leading-[1.1] tracking-[-0.02em]">
-        Para onde enviamos o seu resultado?
+        Vamos calcular seu potencial?
       </h2>
 
       <p className="mb-8 text-travion-muted">
-        Precisamos do contato para te mandar a estimativa e conversar sobre ela. Leva 20
+        Precisamos do contato para conversar sobre a estimativa. Leva 20
         segundos.
       </p>
 
@@ -185,8 +187,9 @@ export function LeadStep({ lead, onChange, onSubmit }: LeadStepProps) {
           </p>
         </div>
 
-        <Button type="submit" size="lg" className="mt-2">
-          Continuar
+        {error && <p role="alert" className="text-red-700">{error}</p>}
+        <Button type="submit" size="lg" className="mt-2" disabled={busy}>
+          {busy ? 'Salvando…' : 'Continuar'}
         </Button>
       </form>
     </div>

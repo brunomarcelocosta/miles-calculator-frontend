@@ -223,7 +223,7 @@ describe('leadContactSchema', () => {
   })
 
   it('exige a data de consentimento', () => {
-    const { consentAt: _omitted, ...withoutConsent } = contact
+    const withoutConsent = Object.fromEntries(Object.entries(contact).filter(([key]) => key !== 'consentAt'))
 
     expect(leadContactSchema.safeParse(withoutConsent).success).toBe(false)
   })

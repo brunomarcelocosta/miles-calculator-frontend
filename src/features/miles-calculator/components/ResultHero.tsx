@@ -66,7 +66,7 @@ export function ResultHero({ estimate, countUpDurationMs }: ResultHeroProps) {
         <div className="mt-4 rounded-2xl border border-border bg-card p-6 shadow-travion">
           <p className="mb-4 text-sm text-travion-muted">
             O piso considera o menor valor de cada faixa que você respondeu, sem bônus de
-            transferência. O teto considera o maior valor, já com os 25% de bônus.
+            transferência. O teto considera o maior valor, já com o bônus de transferência.
           </p>
 
           <table className="w-full text-sm">

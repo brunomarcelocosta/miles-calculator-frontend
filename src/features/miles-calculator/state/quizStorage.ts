@@ -1,9 +1,8 @@
-import { findOption, getQuestion } from '@/domain/config/questionCatalog'
+import { QUESTIONS, findOption, type Question } from '@/domain/config/questionCatalog'
 import type { QuestionId, QuizAnswers } from '@/domain/model/QuizAnswers'
 import { emptyLeadDraft, type LeadDraft } from '@/features/miles-calculator/types/lead'
 import {
   QUIZ_STEPS,
-  RESULT_STEP_INDEX,
   isQuestionStep,
 } from '@/features/miles-calculator/types/quizStep'
 
@@ -49,19 +48,17 @@ function isRecord(value: unknown): value is Record<string, unknown> {
  * continua com o formato antigo. Descartar o que nao reconhecemos e melhor que
  * levar um id invalido ate o motor de calculo.
  */
-function sanitizeAnswers(raw: unknown): QuizAnswers {
+function sanitizeAnswers(raw: unknown, questions: readonly Question[] = QUESTIONS): QuizAnswers {
   if (!isRecord(raw)) return {}
 
   const answers: QuizAnswers = {}
 
-  for (const step of QUIZ_STEPS) {
-    if (!isQuestionStep(step)) continue
-
-    const value = raw[step.id]
+  for (const question of questions) {
+    const value = raw[question.id]
     if (typeof value !== 'string') continue
 
-    if (findOption(getQuestion(step.id), value)) {
-      answers[step.id] = value
+    if (findOption(question, value)) {
+      answers[question.id] = value
     }
   }
 
@@ -88,32 +85,32 @@ function sanitizeLead(raw: unknown): LeadDraft {
  * foi descartada na limpeza acima e o passo continuou em 12. Sem este recuo, a
  * tela de resultado tentaria calcular com resposta faltando.
  */
-function clampStepIndex(rawIndex: unknown, answers: QuizAnswers): number {
+function clampStepIndex(rawIndex: unknown, answers: QuizAnswers, questions: readonly Question[] = QUESTIONS): number {
+  const resultIndex = questions.length + 2
   const index =
     typeof rawIndex === 'number' && Number.isInteger(rawIndex)
-      ? Math.min(Math.max(rawIndex, 0), RESULT_STEP_INDEX)
+      ? Math.min(Math.max(rawIndex, 0), resultIndex)
       : 0
 
-  const firstUnanswered = QUIZ_STEPS.findIndex(
-    (step) => isQuestionStep(step) && !answers[step.id],
-  )
+  const firstUnansweredQuestion = questions.findIndex((question) => !answers[question.id])
+  const firstUnanswered = firstUnansweredQuestion < 0 ? -1 : firstUnansweredQuestion + 2
 
   if (firstUnanswered === -1) return index
 
   return Math.min(index, firstUnanswered)
 }
 
-export function sanitizePersistedState(raw: unknown): PersistedQuizState | null {
+export function sanitizePersistedState(raw: unknown, questions: readonly Question[] = QUESTIONS): PersistedQuizState | null {
   if (!isRecord(raw)) return null
 
   const savedAt = typeof raw.savedAt === 'number' ? raw.savedAt : 0
 
   if (!savedAt || Date.now() - savedAt > QUIZ_STORAGE_TTL_MS) return null
 
-  const answers = sanitizeAnswers(raw.answers)
+  const answers = sanitizeAnswers(raw.answers, questions)
 
   return {
-    stepIndex: clampStepIndex(raw.stepIndex, answers),
+    stepIndex: clampStepIndex(raw.stepIndex, answers, questions),
     answers,
     lead: sanitizeLead(raw.lead),
     savedAt,
@@ -121,13 +118,13 @@ export function sanitizePersistedState(raw: unknown): PersistedQuizState | null 
 }
 
 /** Le o estado salvo. Nunca lanca: falha de storage nao pode derrubar a landing. */
-export function loadQuizState(): PersistedQuizState | null {
+export function loadQuizState(questions: readonly Question[] = QUESTIONS): PersistedQuizState | null {
   try {
     const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY)
 
     if (!raw) return null
 
-    return sanitizePersistedState(JSON.parse(raw))
+    return sanitizePersistedState(JSON.parse(raw), questions)
   } catch {
     // Modo privado do Safari, storage cheio ou JSON corrompido. Em todos, o
     // certo e comecar do zero em silencio.

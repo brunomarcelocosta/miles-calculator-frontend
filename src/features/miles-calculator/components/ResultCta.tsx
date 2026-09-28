@@ -1,52 +1,15 @@
 import { MessageCircle } from 'lucide-react'
 
-import { env } from '@/app/config/env'
 import { Button } from '@/components/ui/button'
 import type { DestinationRecommendation } from '@/domain/model/Destination'
 import type { PointsEstimate } from '@/domain/model/PointsEstimate'
-import { formatPointsRounded } from '@/shared/lib/formatNumber'
 import { trackWhatsAppClick } from '@/shared/lib/analytics'
+import { buildWhatsAppUrl } from '@/features/miles-calculator/lib/whatsApp'
 
 interface ResultCtaProps {
   estimate: PointsEstimate
   recommendations: DestinationRecommendation[]
   onClick?: () => void
-}
-
-/**
- * Monta a mensagem que ja vai preenchida no WhatsApp.
- *
- * Levar a faixa e o destino de topo na primeira mensagem poupa a pessoa de
- * repetir o resultado e entrega contexto de venda antes de alguem responder.
- */
-export function buildWhatsAppMessage(
-  estimate: PointsEstimate,
-  recommendations: DestinationRecommendation[],
-): string {
-  const reachable = recommendations.filter((item) => item.withinMaximum)
-  const topDestination = reachable.at(-1)?.destination.name
-
-  const range = `entre ${formatPointsRounded(estimate.min.annualPoints)} e ${formatPointsRounded(
-    estimate.max.annualPoints,
-  )} milhas por ano`
-
-  const destinationPart = topDestination
-    ? ` Fiquei interessado em ${topDestination}.`
-    : ''
-
-  return (
-    `Olá Travion, fiz a calculadora de milhas e meu resultado foi ${range}.` +
-    `${destinationPart} Quero falar com um especialista.`
-  )
-}
-
-export function buildWhatsAppUrl(
-  estimate: PointsEstimate,
-  recommendations: DestinationRecommendation[],
-): string {
-  const message = buildWhatsAppMessage(estimate, recommendations)
-
-  return `https://wa.me/${env.VITE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 }
 
 /**

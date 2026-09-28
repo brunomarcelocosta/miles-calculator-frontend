@@ -8,6 +8,7 @@ interface SingleChoiceStepProps {
   question: Question
   selectedOptionId: string | undefined
   onSelect: (optionId: string) => void
+  disabled?: boolean
 }
 
 /**
@@ -24,6 +25,7 @@ export function SingleChoiceStep({
   question,
   selectedOptionId,
   onSelect,
+  disabled = false,
 }: SingleChoiceStepProps) {
   const optionRefs = useRef<Array<HTMLButtonElement | null>>([])
   const selectedIndex = question.options.findIndex((option) => option.id === selectedOptionId)
@@ -107,6 +109,7 @@ export function SingleChoiceStep({
                 optionRefs.current[index] = node
               }}
               type="button"
+              disabled={disabled}
               role="radio"
               aria-checked={isSelected}
               // Roving tabindex: o grupo inteiro e um unico ponto de parada do

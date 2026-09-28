@@ -59,8 +59,11 @@ export function PrivacyPage() {
             <h2 className="mb-2 text-xl text-foreground">Seus direitos</h2>
             <p>
               Você pode pedir acesso, correção ou exclusão dos seus dados, e revogar o
-              consentimento a qualquer momento. Para isso, fale com a gente pelo WhatsApp ou
-              pelo email de contato da Travion.
+              consentimento a qualquer momento. Para contato e solicitações de privacidade,
+              escreva para{' '}
+              <a href="mailto:admin@mosaapp.com.br" className="underline underline-offset-4">
+                admin@mosaapp.com.br
+              </a>.
             </p>
           </section>
 

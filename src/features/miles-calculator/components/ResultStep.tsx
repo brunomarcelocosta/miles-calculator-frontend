@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import type { QuizAnswers } from '@/domain/model/QuizAnswers'
 import { DestinationCard } from '@/features/miles-calculator/components/DestinationCard'
 import { ResultCta } from '@/features/miles-calculator/components/ResultCta'
 import { ResultHero } from '@/features/miles-calculator/components/ResultHero'
 import { ResultSkeleton } from '@/features/miles-calculator/components/ResultSkeleton'
-import { useMilesEstimate } from '@/features/miles-calculator/hooks/useMilesEstimate'
+import type { CalculatorResult } from '@/features/miles-calculator/api/leadsApi'
 
 /** Pausa deliberada antes de revelar o resultado. Ver `ResultSkeleton`. */
 export const CALCULATION_DELAY_MS = 1_400
@@ -18,7 +17,7 @@ const STYLE_LABEL = {
 } as const
 
 interface ResultStepProps {
-  answers: QuizAnswers
+  serverResult: CalculatorResult
   onRestart: () => void
   /** Zero revela na hora, usado em teste. */
   calculationDelayMs?: number
@@ -26,12 +25,12 @@ interface ResultStepProps {
 }
 
 export function ResultStep({
-  answers,
+  serverResult,
   onRestart,
   calculationDelayMs = CALCULATION_DELAY_MS,
   countUpDurationMs,
 }: ResultStepProps) {
-  const result = useMilesEstimate(answers)
+  const result = serverResult
   const [revealed, setRevealed] = useState(calculationDelayMs <= 0)
 
   useEffect(() => {
@@ -42,28 +41,12 @@ export function ResultStep({
     return () => clearTimeout(timer)
   }, [calculationDelayMs])
 
-  // Passo de resultado sem respostas completas nao deveria acontecer, porque a
-  // retomada recua para a primeira pergunta em branco. Se acontecer, o certo e
-  // oferecer o caminho de volta em vez de estourar na cara de quem respondeu.
-  if (!result) {
-    return (
-      <div className="mx-auto max-w-[34rem] text-center">
-        <h2 className="mb-3 text-[clamp(1.7rem,5.5vw,2.6rem)] leading-[1.1]">
-          Faltou alguma resposta
-        </h2>
-        <p className="mb-8 text-travion-muted">
-          Não conseguimos montar a estimativa. Refazer o quiz leva menos de 3 minutos.
-        </p>
-        <Button onClick={onRestart}>Refazer o quiz</Button>
-      </div>
-    )
-  }
-
   if (!revealed) {
-    return <ResultSkeleton />
+    return <ResultSkeleton destinationCount={result.recommendations.length} />
   }
 
-  const { estimate, recommendations, profile } = result
+  const { estimate, recommendations } = result
+  const travelStyle = result.travelStyle
 
   return (
     <div className="grid gap-10">
@@ -74,7 +57,7 @@ export function ResultStep({
           Para onde essas milhas levam
         </h2>
         <p className="mx-auto mb-8 max-w-[34rem] text-center text-travion-muted">
-          Cinco destinos de {STYLE_LABEL[profile.travelStyle]}, do que você já alcança ao que
+          Cinco destinos de {STYLE_LABEL[travelStyle]}, do que você já alcança ao que
           vale perseguir. Cada card mostra a milhagem de ida e volta.
         </p>
 

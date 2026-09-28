@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import axios from 'axios'
 import { Navigate } from 'react-router-dom'
 import { ROUTES } from '@/app/config/routes'
 import { Button } from '@/components/ui/button'
@@ -58,7 +59,9 @@ export function AdminLoginPage() {
 
         {loginMutation.error ? (
           <p className="text-sm text-destructive" role="alert">
-            {(loginMutation.error as any)?.response?.data?.message || 'Credenciais inválidas.'}
+            {axios.isAxiosError<{ message?: string }>(loginMutation.error)
+              ? loginMutation.error.response?.data?.message || 'Credenciais inválidas.'
+              : 'Credenciais inválidas.'}
           </p>
         ) : null}
 

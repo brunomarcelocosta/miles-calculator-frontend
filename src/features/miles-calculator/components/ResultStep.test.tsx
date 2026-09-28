@@ -7,7 +7,7 @@ import { ResultStep } from '@/features/miles-calculator/components/ResultStep'
 import {
   buildWhatsAppMessage,
   buildWhatsAppUrl,
-} from '@/features/miles-calculator/components/ResultCta'
+} from '@/features/miles-calculator/lib/whatsApp'
 import { defaultConfigProvider } from '@/domain/config/CalculatorConfigProvider'
 import { DestinationRecommender } from '@/domain/services/DestinationRecommender'
 import { MilesEstimator } from '@/domain/services/MilesEstimator'
@@ -44,7 +44,7 @@ function expected(answers: QuizAnswers) {
   const estimate = new MilesEstimator({ configProvider: defaultConfigProvider }).estimate(profile)
 
   return {
-    profile,
+    travelStyle: profile.travelStyle,
     estimate,
     recommendations: new DestinationRecommender().recommend(estimate, profile.travelStyle),
   }
@@ -56,7 +56,7 @@ function renderResult(answers: QuizAnswers, onRestart = vi.fn()) {
     onRestart,
     ...render(
       <ResultStep
-        answers={answers}
+        serverResult={expected(answers)}
         onRestart={onRestart}
         calculationDelayMs={0}
         countUpDurationMs={0}
@@ -68,7 +68,7 @@ function renderResult(answers: QuizAnswers, onRestart = vi.fn()) {
 describe('ResultStep', () => {
   describe('estado de calculo', () => {
     it('mostra o esqueleto antes de revelar', () => {
-      render(<ResultStep answers={highSpender} onRestart={vi.fn()} calculationDelayMs={50} />)
+      render(<ResultStep serverResult={expected(highSpender)} onRestart={vi.fn()} calculationDelayMs={50} />)
 
       // Regiao viva, para o leitor de tela saber que algo esta em andamento.
       expect(screen.getByRole('status')).toBeInTheDocument()
@@ -79,7 +79,7 @@ describe('ResultStep', () => {
     it('revela o resultado depois do atraso', async () => {
       render(
         <ResultStep
-          answers={highSpender}
+          serverResult={expected(highSpender)}
           onRestart={vi.fn()}
           calculationDelayMs={50}
           countUpDurationMs={0}
@@ -320,25 +320,6 @@ describe('ResultStep', () => {
     })
   })
 
-  describe('respostas incompletas', () => {
-    it('oferece o caminho de volta em vez de estourar', () => {
-      const { cardPf: _omitted, ...incomplete } = highSpender
-
-      renderResult(incomplete)
-
-      expect(screen.getByRole('heading', { name: 'Faltou alguma resposta' })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Refazer o quiz' })).toBeInTheDocument()
-    })
-
-    it('nao mostra faixa nem destinos', () => {
-      const { travelStyle: _omitted, ...incomplete } = highSpender
-
-      renderResult(incomplete)
-
-      expect(screen.queryByText('milhas por ano')).not.toBeInTheDocument()
-      expect(screen.queryAllByRole('listitem')).toHaveLength(0)
-    })
-  })
 })
 
 describe('buildWhatsAppMessage', () => {
