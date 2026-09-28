@@ -32,12 +32,19 @@ function renderPage() {
   return render(<QueryClientProvider client={queryClient}><MemoryRouter><CalculatorPage /></MemoryRouter></QueryClientProvider>)
 }
 
+async function selectCountry(user: ReturnType<typeof userEvent.setup>, country: string) {
+  await user.click(screen.getByRole('combobox', { name: 'País do WhatsApp' }))
+  const names: Record<string, string> = { BR: 'Brasil', CA: 'Canadá', PT: 'Portugal' }
+  await user.type(await screen.findByRole('combobox', { name: 'Pesquisar país ou código' }), names[country]!)
+  await user.click(screen.getByRole('option', { name: new RegExp(names[country]!) }))
+}
+
 async function enterLead(user: ReturnType<typeof userEvent.setup>, phone = '12997643952', country = 'BR') {
   await screen.findByRole('button', { name: 'Começar agora' })
   await user.click(screen.getByRole('button', { name: 'Começar agora' }))
   await user.type(screen.getByLabelText('Nome completo'), 'Ana Souza')
   await user.type(screen.getByLabelText('Email'), 'ana@travion.com.br')
-  await user.selectOptions(screen.getByRole('combobox', { name: 'País do WhatsApp' }), country)
+  await selectCountry(user, country)
   await user.type(screen.getByLabelText('WhatsApp'), phone)
   await user.click(screen.getByRole('button', { name: 'Continuar' }))
   await screen.findByRole('heading', { name: /cartão de crédito pessoal/i })
@@ -79,7 +86,7 @@ describe('CalculatorPage com backend como fonte do resultado', () => {
     await user.click(await screen.findByRole('button', { name: 'Começar agora' }))
     await user.type(screen.getByLabelText('Nome completo'), 'Ana Souza')
     await user.type(screen.getByLabelText('Email'), 'ana@travion.com.br')
-    await user.selectOptions(screen.getByRole('combobox', { name: 'País do WhatsApp' }), country)
+    await selectCountry(user, country)
     await user.type(screen.getByLabelText('WhatsApp'), phone)
     expect(screen.getByLabelText('WhatsApp')).toHaveValue(formatted)
     await user.click(screen.getByRole('button', { name: 'Continuar' }))
