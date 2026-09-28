@@ -293,6 +293,7 @@ export function DiagnosticPage() {
                   para conversar sobre seu perfil e os próximos passos.
                 </p>
                 <Button
+                  nativeButton={false}
                   render={
                     <a href={whatsapp} target="_blank" rel="noreferrer" />
                   }
@@ -302,6 +303,7 @@ export function DiagnosticPage() {
                 </Button>
                 <Button
                   variant="outline"
+                  nativeButton={false}
                   render={
                     <a
                       href="https://travion.com.br"
