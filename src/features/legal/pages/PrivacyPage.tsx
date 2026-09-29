@@ -31,9 +31,9 @@ export function PrivacyPage() {
           <section>
             <h2 className="mb-2 text-xl text-foreground">Quais dados coletamos</h2>
             <p>
-              Nome e o canal de contato escolhido (WhatsApp ou e-mail), suas respostas sobre gastos pessoais, experiência com pontos, saldo aproximado e planos de viagem, o
-              histórico de respostas. Nos registros antigos da calculadora, também podem
-              constar Instagram e a estimativa calculada. Registramos também a origem da visita (parâmetros de campanha e
+              Nome, email e telefone informados por você no formulário da calculadora, o
+              Instagram quando preenchido, as respostas do questionário e a estimativa
+              calculada. Registramos também a origem da visita (parâmetros de campanha e
               página de referência) e uma versão irreversível do seu endereço IP.
             </p>
           </section>
