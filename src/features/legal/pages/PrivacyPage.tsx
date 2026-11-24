@@ -61,8 +61,8 @@ export function PrivacyPage() {
               Você pode pedir acesso, correção ou exclusão dos seus dados, e revogar o
               consentimento a qualquer momento. Para contato e solicitações de privacidade,
               escreva para{' '}
-              <a href="mailto:admin@mosaapp.com.br" className="underline underline-offset-4">
-                admin@mosaapp.com.br
+              <a href="mailto:contato@travion.com.br" className="underline underline-offset-4">
+                contato@travion.com.br
               </a>.
             </p>
           </section>
